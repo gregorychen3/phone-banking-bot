@@ -2,8 +2,11 @@ import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-mui";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  selectContacts,
+  selectMessageTemplate,
+  selectSenderName,
   setActiveStepIdx,
   setContacts,
   setMessageTemplate,
@@ -51,22 +54,20 @@ const formSchema = Yup.object().shape({
     ),
 });
 
-interface FormValues {
-  senderName: string;
-  messageTemplate: string;
-  rawContacts: string;
-}
-
-const initialValues: FormValues = {
-  senderName: "",
-  messageTemplate: "",
-  rawContacts: "",
-};
-
 export const setupStepIdx = 0;
 
 export function SetupStep() {
   const d = useDispatch();
+
+  const senderName = useSelector(selectSenderName);
+  const messageTemplate = useSelector(selectMessageTemplate);
+  const contacts = useSelector(selectContacts);
+
+  const initialValues = {
+    senderName,
+    messageTemplate,
+    rawContacts: contacts.map((c) => `${c.name}\t${c.number}`).join("\n"),
+  };
 
   return (
     <Formik
