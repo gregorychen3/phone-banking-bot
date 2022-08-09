@@ -129,8 +129,8 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Phone Banking Bot",
+    "appId": "org.gregorychen3.PhoneBankingBot",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
