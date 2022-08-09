@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-mui";
 import { useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import {
 } from "renderer/redux/formSlice";
 import * as Yup from "yup";
 import { confirmStepIdx } from "./ConfirmStep";
+import { setupStepIdx } from "./SetupStep";
 
 const formSchema = Yup.object().shape({
   rawContacts: Yup.string()
@@ -74,6 +75,8 @@ export const uploadStepIdx = 1;
 export function ContactsStep() {
   const d = useDispatch();
 
+  const handleBack = () => d(setActiveStepIdx(setupStepIdx));
+
   return (
     <Formik
       initialValues={initialValues}
@@ -96,6 +99,12 @@ export function ContactsStep() {
               multiline
               fullWidth
             />
+          </Grid>
+          <Grid container item xs={12} justifyContent="flex-end">
+            <Button onClick={handleBack}>Back</Button>
+            <Button variant="contained" type="submit">
+              Next
+            </Button>
           </Grid>
         </Grid>
       </Form>
