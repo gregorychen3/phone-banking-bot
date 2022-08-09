@@ -70,7 +70,7 @@ const parseRawContacts = (raw: string) => {
   return ret;
 };
 
-export const uploadStepIdx = 1;
+export const contactsStepIdx = 1;
 
 export function ContactsStep() {
   const d = useDispatch();

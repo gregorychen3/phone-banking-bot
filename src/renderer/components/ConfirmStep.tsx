@@ -1,4 +1,4 @@
-import { Grid, styled } from "@mui/material";
+import { Button, Grid, styled } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,39 +6,18 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useFormikContext } from "formik";
-import { FormValues } from "./PhoneBankingStepper";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectContacts,
+  selectMessageTemplate,
+  selectSenderName,
+  setActiveStepIdx,
+} from "renderer/redux/formSlice";
+import { contactsStepIdx } from "./ContactsStep";
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.success.main,
 }));
-
-interface Contact {
-  name: string;
-  number: string;
-}
-
-const parseContacts = (raw: string) => {
-  const ret: Contact[] = [];
-
-  const rows = raw.split("\n");
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-    const rowSplit = row.split("\t");
-    if (rowSplit.length !== 2) {
-      throw new Error(`Malformed contact row: ${row}`);
-    }
-
-    const [name, number] = rowSplit;
-    if (!name || !number) {
-      throw new Error(`Malformed contact row: ${row}`);
-    }
-
-    ret.push({ name, number });
-  }
-
-  return ret;
-};
 
 const EmphasisText = styled("div")(({ theme }) => ({
   color: theme.palette.success.main,
@@ -51,17 +30,21 @@ const EmphasisInlineText = styled("span")(({ theme }) => ({
 export const confirmStepIdx = 2;
 
 export function ConfirmStep() {
-  const { values } = useFormikContext<FormValues>();
+  const d = useDispatch();
+
+  const senderName = useSelector(selectSenderName);
+  const messageTemplate = useSelector(selectMessageTemplate);
+  const contacts = useSelector(selectContacts);
+
+  const handleBack = () => d(setActiveStepIdx(contactsStepIdx));
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        Your name is{" "}
-        <EmphasisInlineText>{values.senderName}</EmphasisInlineText>.
+        Your name is <EmphasisInlineText>{senderName}</EmphasisInlineText>.
       </Grid>
       <Grid item xs={12}>
-        The text to be sent:{" "}
-        <EmphasisText>{values.messageTemplate}</EmphasisText>
+        The text to be sent: <EmphasisText>{messageTemplate}</EmphasisText>
       </Grid>
       <Grid item xs={12}>
         Recipients:
@@ -74,15 +57,19 @@ export function ConfirmStep() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {parseContacts(values.contacts).map((contact) => (
-                <TableRow key={contact.name}>
-                  <EmphasisTableCell>{contact.name}</EmphasisTableCell>
-                  <EmphasisTableCell>{contact.number}</EmphasisTableCell>
+              {contacts.map((c) => (
+                <TableRow key={c.name}>
+                  <EmphasisTableCell>{c.name}</EmphasisTableCell>
+                  <EmphasisTableCell>{c.number}</EmphasisTableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+      </Grid>
+      <Grid container item xs={12} justifyContent="flex-end">
+        <Button onClick={handleBack}>Back</Button>
+        <Button variant="contained">Send Texts!</Button>
       </Grid>
     </Grid>
   );

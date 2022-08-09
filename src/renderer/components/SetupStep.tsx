@@ -9,7 +9,7 @@ import {
   setSenderName,
 } from "renderer/redux/formSlice";
 import * as Yup from "yup";
-import { uploadStepIdx } from "./ContactsStep";
+import { contactsStepIdx } from "./ContactsStep";
 
 const formSchema = Yup.object().shape({
   senderName: Yup.string().required("Required"),
@@ -42,7 +42,7 @@ export function SetupStep() {
         d(setSenderName(values.senderName));
         d(setMessageTemplate(values.messageTemplate));
         setSubmitting(false);
-        d(setActiveStepIdx(uploadStepIdx));
+        d(setActiveStepIdx(contactsStepIdx));
       }}
     >
       <Form>
