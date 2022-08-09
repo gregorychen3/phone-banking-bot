@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
-export interface CounterState {
+export interface FormState {
   senderName: string;
   messageTemplate: string;
   contacts: string;
 }
 
-const initialState: CounterState = {
+const initialState: FormState = {
   senderName: "",
   messageTemplate: "",
   contacts: "",
