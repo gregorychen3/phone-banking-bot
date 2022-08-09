@@ -15,7 +15,13 @@ import * as Yup from "yup";
 
 const formSchema = Yup.object().shape({
   senderName: Yup.string().required("Required"),
-  messageTemplate: Yup.string().required("Required"),
+  messageTemplate: Yup.string()
+    .required("Required")
+    .matches(/SENDER_NAME/, "Template should contain SENDER_NAME placeholder")
+    .matches(
+      /RECIPIENT_NAME/,
+      "Template should contain RECIPIENT_NAME placeholder"
+    ),
   email: Yup.string().email("Invalid email").required("Required"),
 });
 
