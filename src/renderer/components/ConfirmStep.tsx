@@ -39,7 +39,9 @@ export function ConfirmStep() {
 
   const handleBack = () => d(setActiveStepIdx(setupStepIdx));
 
-  const handleConfirm = () => d(setActiveStepIdx(SendStepIdx));
+  const handleConfirm = () => {
+    d(setActiveStepIdx(SendStepIdx));
+  };
 
   return (
     <Grid container spacing={4}>
