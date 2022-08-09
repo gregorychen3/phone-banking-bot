@@ -5,15 +5,25 @@ export const getAppleScript = (
   messageTemplate: string,
   contacts: Contact[]
 ) => {
-  const message = messageTemplate
-    .replaceAll("SENDER_NAME", senderName)
-    .replaceAll("RECIPIENT_NAME", contacts[0].name);
-
   const script = `
   tell application "Messages"
     set smsService to 1st service whose service type = SMS
-    set recipient to buddy "${contacts[0].number}" of smsService
-    send "${message}" to recipient
+    ${contacts
+      .map(
+        (c) => `set recipient to buddy "${c.number}" of smsService
+    send "${renderMessage(messageTemplate, senderName, c.name)}" to recipient`
+      )
+      .join("\n    ")}
   end tell`;
+
   return script;
 };
+
+const renderMessage = (
+  messageTemplate: string,
+  senderName: string,
+  recipientName: string
+) =>
+  messageTemplate
+    .replaceAll("SENDER_NAME", senderName)
+    .replaceAll("RECIPIENT_NAME", recipientName);

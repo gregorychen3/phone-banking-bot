@@ -37,6 +37,10 @@ ipcMain.on("ipc-example", async (event, arg) => {
 ipcMain.on("send-texts", async (_, args: SendTextsChannelArgs) => {
   const { senderName, messageTemplate, contacts } = args[0];
   const script = getAppleScript(senderName, messageTemplate, contacts);
+
+  console.log("Executing applescript:");
+  console.log(script);
+
   execSync(`osascript <<< '${script}'`);
 });
 
