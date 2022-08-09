@@ -4,7 +4,6 @@ import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-mui";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Contact,
   selectContacts,
   selectMessageTemplate,
   selectSenderName,
@@ -13,6 +12,7 @@ import {
   setMessageTemplate,
   setSenderName,
 } from "renderer/redux/formSlice";
+import { Contact } from "types";
 import * as Yup from "yup";
 import { confirmStepIdx } from "./ConfirmStep";
 
