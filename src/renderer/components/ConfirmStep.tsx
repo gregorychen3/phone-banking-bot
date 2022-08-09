@@ -13,6 +13,7 @@ import {
   selectSenderName,
   setActiveStepIdx,
 } from "renderer/redux/formSlice";
+import { SendStepIdx } from "./SendStep";
 import { setupStepIdx } from "./SetupStep";
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,6 +38,8 @@ export function ConfirmStep() {
   const contacts = useSelector(selectContacts);
 
   const handleBack = () => d(setActiveStepIdx(setupStepIdx));
+
+  const handleConfirm = () => d(setActiveStepIdx(SendStepIdx));
 
   return (
     <Grid container spacing={4}>
@@ -69,7 +72,9 @@ export function ConfirmStep() {
       </Grid>
       <Grid container item xs={12} justifyContent="flex-end">
         <Button onClick={handleBack}>Back</Button>
-        <Button variant="contained">Send Texts!</Button>
+        <Button variant="contained" onClick={handleConfirm}>
+          Send Texts!
+        </Button>
       </Grid>
     </Grid>
   );

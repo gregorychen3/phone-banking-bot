@@ -1,10 +1,7 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
-import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import { selectActiveStepIdx } from "renderer/redux/formSlice";
 import { ConfirmStep } from "./ConfirmStep";
@@ -41,32 +38,7 @@ export function PhoneBankingStepper() {
           </Step>
         ))}
       </Stepper>
-      <>
-        {activeStepIdx === steps.length ? (
-          <>
-            <Typography variant="h5" gutterBottom>
-              Thank you for your order.
-            </Typography>
-            <Typography variant="subtitle1">
-              Your order number is #2001539. We have emailed your order
-              confirmation, and will send you an update when your order has
-              shipped.
-            </Typography>
-          </>
-        ) : (
-          <>
-            {getStepContent(activeStepIdx)}
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              {activeStepIdx !== 0 && (
-                <Button sx={{ mt: 3, ml: 1 }}>Back</Button>
-              )}
-              <Button variant="contained" sx={{ mt: 3, ml: 1 }}>
-                {activeStepIdx === steps.length - 1 ? "Place order" : "Next"}
-              </Button>
-            </Box>
-          </>
-        )}
-      </>
+      {getStepContent(activeStepIdx)}
     </Paper>
   );
 }
