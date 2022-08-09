@@ -11,6 +11,13 @@ import { ConfirmStep } from "./ConfirmStep";
 import { SendStep } from "./SendStep";
 import { SetupStep } from "./SetupStep";
 import { UploadStep } from "./UploadStep";
+import * as Yup from "yup";
+
+const formSchema = Yup.object().shape({
+  senderName: Yup.string().required("Required"),
+  messageTemplate: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+});
 
 const steps = ["Setup", "Upload contacts", "Confirm", "Send"];
 
@@ -43,6 +50,7 @@ export function PhoneBankingForm() {
   return (
     <Formik
       initialValues={{ senderName: "", messageTemplate: "" }}
+      validationSchema={formSchema}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
         alert(JSON.stringify(values, null, 2));
