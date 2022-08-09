@@ -45,7 +45,7 @@ const initialValues: FormValues = { rawContacts: "" };
 
 export const uploadStepIdx = 1;
 
-export function UploadStep() {
+export function ContactsStep() {
   const d = useDispatch();
 
   return (

@@ -9,7 +9,7 @@ import {
   setSenderName,
 } from "renderer/redux/formSlice";
 import * as Yup from "yup";
-import { uploadStepIdx } from "./UploadStep";
+import { uploadStepIdx } from "./ContactsStep";
 
 const formSchema = Yup.object().shape({
   senderName: Yup.string().required("Required"),

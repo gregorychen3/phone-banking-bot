@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import { ConfirmStep } from "./ConfirmStep";
 import { SendStep } from "./SendStep";
 import { SetupStep } from "./SetupStep";
-import { UploadStep } from "./UploadStep";
+import { ContactsStep } from "./ContactsStep";
 
 const formSchema = Yup.object().shape({
   senderName: Yup.string().required("Required"),
@@ -59,7 +59,7 @@ function getStepContent(step: number) {
     case 0:
       return <SetupStep />;
     case 1:
-      return <UploadStep />;
+      return <ContactsStep />;
     case 2:
       return <ConfirmStep />;
     case 3:
