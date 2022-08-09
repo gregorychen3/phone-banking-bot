@@ -22,7 +22,29 @@ const formSchema = Yup.object().shape({
       /RECIPIENT_NAME/,
       "Template should contain RECIPIENT_NAME placeholder"
     ),
-  email: Yup.string().email("Invalid email").required("Required"),
+  contacts: Yup.string()
+    .required("Required")
+    .test(
+      "is-valid-contact-data",
+      "Each row must have: [name, phone_num]",
+      (value) => {
+        const rows = value!.split("\n");
+        for (let i = 0; i < rows.length; i++) {
+          const row = rows[i];
+          const rowSplit = row.split("\t");
+          if (rowSplit.length !== 2) {
+            return false;
+          }
+
+          const [name, number] = row;
+          if (!name || !number) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+    ),
 });
 
 const steps = ["Setup", "Upload contacts", "Confirm", "Send"];
