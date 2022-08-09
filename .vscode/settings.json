@@ -1,6 +1,6 @@
 {
   "files.associations": {
-    ".prettierrc": "jsonc",
+    ".prettierrc": "jsonc"
   },
   "javascript.validate.enable": false,
   "javascript.format.enable": false,
