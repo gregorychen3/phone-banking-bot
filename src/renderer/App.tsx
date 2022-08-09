@@ -13,10 +13,6 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
-const Hello = () => {
-  return <Button variant="contained">Hello World</Button>;
-};
-
 const theme = createTheme();
 const steps = ["Setup", "Upload contacts", "Confirm", "Send"];
 
@@ -113,7 +109,7 @@ export default function App() {
 
       <MemoryRouter>
         <Routes>
-          <Route path="/" element={<Hello />} />
+          <Route path="/" element={null} />
         </Routes>
       </MemoryRouter>
     </ThemeProvider>
