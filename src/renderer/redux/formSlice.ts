@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Contact } from "types";
 import { RootState } from "./store";
-
-export interface Contact {
-  name: string;
-  number: string;
-}
 
 export interface FormState {
   senderName: string;
