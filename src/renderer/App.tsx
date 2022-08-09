@@ -1,24 +1,12 @@
 import AppBar from "@mui/material/AppBar";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { PhoneBankingForm } from "./components/PhoneBankingForm";
-
-const theme = createTheme({
-  components: {
-    MuiInputLabel: {
-      defaultProps: { shrink: true },
-    },
-    MuiOutlinedInput: {
-      defaultProps: {
-        notched: true,
-      },
-    },
-  },
-});
+import { theme } from "./theme";
 
 export default function App() {
   return (
