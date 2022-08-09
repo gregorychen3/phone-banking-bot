@@ -40,6 +40,9 @@ export function ConfirmStep() {
   const handleBack = () => d(setActiveStepIdx(setupStepIdx));
 
   const handleConfirm = () => {
+    window.electron.ipcRenderer.sendMessage("send-texts", [
+      { senderName, messageTemplate, contacts },
+    ]);
     d(setActiveStepIdx(SendStepIdx));
   };
 

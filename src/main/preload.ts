@@ -1,6 +1,11 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
+import { Contact } from "types";
 
-export type Channels = "ipc-example";
+export type Channels = "ipc-example" | "send-texts";
+
+export type SendTextsChannelArgs = [
+  { senderName: string; messageTemplate: string; contacts: Contact[] }
+];
 
 contextBridge.exposeInMainWorld("electron", {
   ipcRenderer: {
