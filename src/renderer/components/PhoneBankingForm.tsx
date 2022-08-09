@@ -77,7 +77,7 @@ export function PhoneBankingForm() {
 
   return (
     <Formik
-      initialValues={{ senderName: "", messageTemplate: "" }}
+      initialValues={{ senderName: "", messageTemplate: "", contacts: "" }}
       validationSchema={formSchema}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
