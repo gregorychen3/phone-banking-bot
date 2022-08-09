@@ -2,7 +2,11 @@ import { Grid } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-mui";
 import { useDispatch } from "react-redux";
-import { setActiveStepIdx, setContacts } from "renderer/redux/formSlice";
+import {
+  Contact,
+  setActiveStepIdx,
+  setContacts,
+} from "renderer/redux/formSlice";
 import * as Yup from "yup";
 import { confirmStepIdx } from "./ConfirmStep";
 
@@ -43,6 +47,28 @@ interface FormValues {
 
 const initialValues: FormValues = { rawContacts: "" };
 
+const parseRawContacts = (raw: string) => {
+  const ret: Contact[] = [];
+
+  const rows = raw.split("\n");
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    const rowSplit = row.split("\t");
+    if (rowSplit.length !== 2) {
+      throw new Error(`Malformed contact row: ${row}`);
+    }
+
+    const [name, number] = rowSplit;
+    if (!name || !number) {
+      throw new Error(`Malformed contact row: ${row}`);
+    }
+
+    ret.push({ name, number });
+  }
+
+  return ret;
+};
+
 export const uploadStepIdx = 1;
 
 export function ContactsStep() {
@@ -53,7 +79,7 @@ export function ContactsStep() {
       initialValues={initialValues}
       validationSchema={formSchema}
       onSubmit={(values, { setSubmitting }) => {
-        d(setContacts(values.rawContacts));
+        d(setContacts(parseRawContacts(values.rawContacts)));
         setSubmitting(false);
         d(setActiveStepIdx(confirmStepIdx));
       }}

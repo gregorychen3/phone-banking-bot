@@ -1,17 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
+export interface Contact {
+  name: string;
+  number: string;
+}
+
 export interface FormState {
   senderName: string;
   messageTemplate: string;
-  contacts: string;
+  contacts: Contact[];
   activeStepIdx: number;
 }
 
 const initialState: FormState = {
   senderName: "",
   messageTemplate: "",
-  contacts: "",
+  contacts: [],
   activeStepIdx: 0,
 };
 
@@ -25,7 +30,7 @@ export const formSlice = createSlice({
     setMessageTemplate: (state, { payload }: PayloadAction<string>) => {
       state.messageTemplate = payload;
     },
-    setContacts: (state, { payload }: PayloadAction<string>) => {
+    setContacts: (state, { payload }: PayloadAction<Contact[]>) => {
       state.contacts = payload;
     },
     resetForm: (state) => {
