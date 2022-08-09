@@ -39,7 +39,7 @@ export function ConfirmStep() {
   const handleBack = () => d(setActiveStepIdx(setupStepIdx));
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={4}>
       <Grid item xs={12}>
         Your name is <EmphasisInlineText>{senderName}</EmphasisInlineText>.
       </Grid>

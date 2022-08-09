@@ -4,6 +4,7 @@ import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-mui";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  Contact,
   selectContacts,
   selectMessageTemplate,
   selectSenderName,
