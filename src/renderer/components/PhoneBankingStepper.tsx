@@ -89,62 +89,49 @@ export function PhoneBankingStepper() {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={formSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setSubmitting(false);
-        alert(JSON.stringify(values, null, 2));
-      }}
+    <Paper
+      variant="outlined"
+      sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
     >
-      <Form>
-        <Paper
-          variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-        >
-          <Stepper activeStep={activeStepIdx} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+      <Stepper activeStep={activeStepIdx} sx={{ pt: 3, pb: 5 }}>
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      <>
+        {activeStepIdx === steps.length ? (
           <>
-            {activeStepIdx === steps.length ? (
-              <>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
-              </>
-            ) : (
-              <>
-                {getStepContent(activeStepIdx)}
-                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  {activeStepIdx !== 0 && (
-                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                      Back
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 3, ml: 1 }}
-                  >
-                    {activeStepIdx === steps.length - 1
-                      ? "Place order"
-                      : "Next"}
-                  </Button>
-                </Box>
-              </>
-            )}
+            <Typography variant="h5" gutterBottom>
+              Thank you for your order.
+            </Typography>
+            <Typography variant="subtitle1">
+              Your order number is #2001539. We have emailed your order
+              confirmation, and will send you an update when your order has
+              shipped.
+            </Typography>
           </>
-        </Paper>
-      </Form>
-    </Formik>
+        ) : (
+          <>
+            {getStepContent(activeStepIdx)}
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              {activeStepIdx !== 0 && (
+                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                  Back
+                </Button>
+              )}
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                sx={{ mt: 3, ml: 1 }}
+              >
+                {activeStepIdx === steps.length - 1 ? "Place order" : "Next"}
+              </Button>
+            </Box>
+          </>
+        )}
+      </>
+    </Paper>
   );
 }
