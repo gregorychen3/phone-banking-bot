@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useFormikContext } from "formik";
-import { FormValues } from "./PhoneBankingForm";
+import { FormValues } from "./PhoneBankingStepper";
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.success.main,

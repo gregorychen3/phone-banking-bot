@@ -5,7 +5,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { PhoneBankingForm } from "./components/PhoneBankingForm";
+import { PhoneBankingStepper } from "./components/PhoneBankingStepper";
 import { theme } from "./theme";
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
       </AppBar>
 
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <PhoneBankingForm />
+        <PhoneBankingStepper />
       </Container>
 
       <MemoryRouter>

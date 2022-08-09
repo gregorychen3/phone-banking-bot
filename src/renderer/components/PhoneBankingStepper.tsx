@@ -77,7 +77,7 @@ export interface FormValues {
 
 const initialValues = { senderName: "", messageTemplate: "", contacts: "" };
 
-export function PhoneBankingForm() {
+export function PhoneBankingStepper() {
   const [activeStepIdx, setActiveStepIdx] = useState(0);
 
   const handleNext = () => {
