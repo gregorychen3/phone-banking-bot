@@ -28,7 +28,12 @@ const formSchema = Yup.object().shape({
       "is-valid-contact-data",
       "Each row must have: [name, phone_num]",
       (value) => {
-        const rows = value!.split("\n");
+        // not sure why, by this can be undefined while the form is still being filled out
+        if (!value) {
+          return false;
+        }
+
+        const rows = value.split("\n");
         for (let i = 0; i < rows.length; i++) {
           const row = rows[i];
           const rowSplit = row.split("\t");
@@ -36,7 +41,7 @@ const formSchema = Yup.object().shape({
             return false;
           }
 
-          const [name, number] = row;
+          const [name, number] = rowSplit;
           if (!name || !number) {
             return false;
           }
@@ -64,6 +69,14 @@ function getStepContent(step: number) {
   }
 }
 
+export interface FormValues {
+  senderName: string;
+  messageTemplate: string;
+  contacts: string;
+}
+
+const initialValues = { senderName: "", messageTemplate: "", contacts: "" };
+
 export function PhoneBankingForm() {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -77,7 +90,7 @@ export function PhoneBankingForm() {
 
   return (
     <Formik
-      initialValues={{ senderName: "", messageTemplate: "", contacts: "" }}
+      initialValues={initialValues}
       validationSchema={formSchema}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
