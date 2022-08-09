@@ -14,6 +14,7 @@ export function UploadStep() {
           type="text"
           multiline
           fullWidth
+          InputLabelProps
         />
       </Grid>
     </Grid>
