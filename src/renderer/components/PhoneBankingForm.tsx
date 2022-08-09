@@ -78,14 +78,14 @@ export interface FormValues {
 const initialValues = { senderName: "", messageTemplate: "", contacts: "" };
 
 export function PhoneBankingForm() {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStepIdx, setActiveStepIdx] = useState(0);
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
+    setActiveStepIdx(activeStepIdx + 1);
   };
 
   const handleBack = () => {
-    setActiveStep(activeStep - 1);
+    setActiveStepIdx(activeStepIdx - 1);
   };
 
   return (
@@ -102,7 +102,7 @@ export function PhoneBankingForm() {
           variant="outlined"
           sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
         >
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+          <Stepper activeStep={activeStepIdx} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
@@ -110,7 +110,7 @@ export function PhoneBankingForm() {
             ))}
           </Stepper>
           <>
-            {activeStep === steps.length ? (
+            {activeStepIdx === steps.length ? (
               <>
                 <Typography variant="h5" gutterBottom>
                   Thank you for your order.
@@ -123,9 +123,9 @@ export function PhoneBankingForm() {
               </>
             ) : (
               <>
-                {getStepContent(activeStep)}
+                {getStepContent(activeStepIdx)}
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  {activeStep !== 0 && (
+                  {activeStepIdx !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                       Back
                     </Button>
@@ -135,7 +135,9 @@ export function PhoneBankingForm() {
                     onClick={handleNext}
                     sx={{ mt: 3, ml: 1 }}
                   >
-                    {activeStep === steps.length - 1 ? "Place order" : "Next"}
+                    {activeStepIdx === steps.length - 1
+                      ? "Place order"
+                      : "Next"}
                   </Button>
                 </Box>
               </>
