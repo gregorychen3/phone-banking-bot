@@ -5,13 +5,13 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import { Form, Formik } from "formik";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectActiveStepIdx } from "renderer/redux/formSlice";
+import * as Yup from "yup";
 import { ConfirmStep } from "./ConfirmStep";
 import { SendStep } from "./SendStep";
 import { SetupStep } from "./SetupStep";
 import { UploadStep } from "./UploadStep";
-import * as Yup from "yup";
 
 const formSchema = Yup.object().shape({
   senderName: Yup.string().required("Required"),
@@ -69,24 +69,8 @@ function getStepContent(step: number) {
   }
 }
 
-export interface FormValues {
-  senderName: string;
-  messageTemplate: string;
-  contacts: string;
-}
-
-const initialValues = { senderName: "", messageTemplate: "", contacts: "" };
-
 export function PhoneBankingStepper() {
-  const [activeStepIdx, setActiveStepIdx] = useState(0);
-
-  const handleNext = () => {
-    setActiveStepIdx(activeStepIdx + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStepIdx(activeStepIdx - 1);
-  };
+  const activeStepIdx = useSelector(selectActiveStepIdx);
 
   return (
     <Paper
@@ -117,15 +101,9 @@ export function PhoneBankingStepper() {
             {getStepContent(activeStepIdx)}
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               {activeStepIdx !== 0 && (
-                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                  Back
-                </Button>
+                <Button sx={{ mt: 3, ml: 1 }}>Back</Button>
               )}
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                sx={{ mt: 3, ml: 1 }}
-              >
+              <Button variant="contained" sx={{ mt: 3, ml: 1 }}>
                 {activeStepIdx === steps.length - 1 ? "Place order" : "Next"}
               </Button>
             </Box>

@@ -2,7 +2,12 @@ import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-mui";
-import { setMessageTemplate, setSenderName } from "renderer/redux/formSlice";
+import { useDispatch } from "react-redux";
+import {
+  setActiveStepIdx,
+  setMessageTemplate,
+  setSenderName,
+} from "renderer/redux/formSlice";
 import * as Yup from "yup";
 
 const formSchema = Yup.object().shape({
@@ -16,14 +21,18 @@ const formSchema = Yup.object().shape({
     ),
 });
 
-export interface FormValues {
+interface FormValues {
   senderName: string;
   messageTemplate: string;
 }
 
 const initialValues: FormValues = { senderName: "", messageTemplate: "" };
 
+export const setupStepIdx = 0;
+
 export function SetupStep() {
+  const d = useDispatch();
+
   return (
     <Formik
       initialValues={initialValues}
@@ -32,6 +41,7 @@ export function SetupStep() {
         setSenderName(values.senderName);
         setMessageTemplate(values.messageTemplate);
         setSubmitting(false);
+        d(setActiveStepIdx(setupStepIdx + 1));
       }}
     >
       <Form>
