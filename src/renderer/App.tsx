@@ -1,7 +1,8 @@
+import Button from '@mui/material/Button';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 
 const Hello = () => {
-  return <div>Hello World</div>;
+  return <Button variant="contained">Hello World</Button>;
 };
 
 export default function App() {
