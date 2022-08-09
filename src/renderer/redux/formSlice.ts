@@ -34,7 +34,10 @@ export const formSlice = createSlice({
       state.contacts = payload;
     },
     resetForm: (state) => {
-      state = initialState;
+      state.senderName = "";
+      state.messageTemplate = "";
+      state.contacts = [];
+      state.activeStepIdx = 0;
     },
     setActiveStepIdx: (state, { payload }: PayloadAction<number>) => {
       state.activeStepIdx = payload;
