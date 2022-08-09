@@ -48,6 +48,8 @@ const EmphasisInlineText = styled("span")(({ theme }) => ({
   color: theme.palette.success.main,
 }));
 
+export const confirmStepIdx = 2;
+
 export function ConfirmStep() {
   const { values } = useFormikContext<FormValues>();
 
