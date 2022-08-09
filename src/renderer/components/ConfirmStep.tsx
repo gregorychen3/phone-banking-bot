@@ -13,7 +13,7 @@ import {
   selectSenderName,
   setActiveStepIdx,
 } from "renderer/redux/formSlice";
-import { contactsStepIdx } from "./ContactsStep";
+import { setupStepIdx } from "./SetupStep";
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.success.main,
@@ -27,7 +27,7 @@ const EmphasisInlineText = styled("span")(({ theme }) => ({
   color: theme.palette.success.main,
 }));
 
-export const confirmStepIdx = 2;
+export const confirmStepIdx = 1;
 
 export function ConfirmStep() {
   const d = useDispatch();
@@ -36,7 +36,7 @@ export function ConfirmStep() {
   const messageTemplate = useSelector(selectMessageTemplate);
   const contacts = useSelector(selectContacts);
 
-  const handleBack = () => d(setActiveStepIdx(contactsStepIdx));
+  const handleBack = () => d(setActiveStepIdx(setupStepIdx));
 
   return (
     <Grid container spacing={2}>

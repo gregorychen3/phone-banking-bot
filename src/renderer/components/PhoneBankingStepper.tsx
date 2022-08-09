@@ -7,62 +7,19 @@ import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import { selectActiveStepIdx } from "renderer/redux/formSlice";
-import * as Yup from "yup";
 import { ConfirmStep } from "./ConfirmStep";
 import { SendStep } from "./SendStep";
 import { SetupStep } from "./SetupStep";
-import { ContactsStep } from "./ContactsStep";
 
-const formSchema = Yup.object().shape({
-  senderName: Yup.string().required("Required"),
-  messageTemplate: Yup.string()
-    .required("Required")
-    .matches(/SENDER_NAME/, "Template should contain SENDER_NAME placeholder")
-    .matches(
-      /RECIPIENT_NAME/,
-      "Template should contain RECIPIENT_NAME placeholder"
-    ),
-  contacts: Yup.string()
-    .required("Required")
-    .test(
-      "is-valid-contact-data",
-      "Each row must have: [name, phone_num]",
-      (value) => {
-        // not sure why, by this can be undefined while the form is still being filled out
-        if (!value) {
-          return false;
-        }
-
-        const rows = value.split("\n");
-        for (let i = 0; i < rows.length; i++) {
-          const row = rows[i];
-          const rowSplit = row.split("\t");
-          if (rowSplit.length !== 2) {
-            return false;
-          }
-
-          const [name, number] = rowSplit;
-          if (!name || !number) {
-            return false;
-          }
-        }
-
-        return true;
-      }
-    ),
-});
-
-const steps = ["Setup", "Upload contacts", "Confirm", "Send"];
+const steps = ["Setup", "Confirm", "Send"];
 
 function getStepContent(step: number) {
   switch (step) {
     case 0:
       return <SetupStep />;
     case 1:
-      return <ContactsStep />;
-    case 2:
       return <ConfirmStep />;
-    case 3:
+    case 2:
       return <SendStep />;
     default:
       throw new Error(`Unknown step ${step}`);
