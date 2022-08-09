@@ -12,7 +12,6 @@ export function SetupStep() {
           label="Sender Name"
           type="text"
           fullWidth
-          InputLabelProps={{ shrink: true }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -24,7 +23,6 @@ export function SetupStep() {
           helperText="Use SENDER_NAME and RECIPIENT_NAME placeholders"
           multiline
           fullWidth
-          InputLabelProps={{ shrink: true }}
         />
       </Grid>
     </Grid>

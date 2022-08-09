@@ -7,7 +7,18 @@ import Typography from "@mui/material/Typography";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { PhoneBankingForm } from "./components/PhoneBankingForm";
 
-const theme = createTheme();
+const theme = createTheme({
+  components: {
+    MuiInputLabel: {
+      defaultProps: { shrink: true },
+    },
+    MuiOutlinedInput: {
+      defaultProps: {
+        notched: true,
+      },
+    },
+  },
+});
 
 export default function App() {
   return (
