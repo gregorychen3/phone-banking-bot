@@ -6,7 +6,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { SendTextsChannelResp } from "main/preload";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectContacts,
@@ -14,6 +13,7 @@ import {
   selectSenderName,
   setActiveStepIdx,
 } from "renderer/redux/formSlice";
+import { ExecErrorResult } from "types";
 import { SendStepIdx } from "./SendStep";
 import { setupStepIdx } from "./SetupStep";
 
@@ -46,7 +46,7 @@ export function ConfirmStep() {
     ]);
 
     window.electron.ipcRenderer.once("send-texts", (arg) => {
-      const resp = arg as SendTextsChannelResp;
+      const resp = arg as ExecErrorResult;
       console.log(resp);
       // TODO: store resp in redux
       setActiveStepIdx(SendStepIdx);

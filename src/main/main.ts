@@ -13,9 +13,9 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
 import path from "path";
+import { SendTextsChannelRequest } from "types";
 import { getAppleScript } from "./applescript";
 import MenuBuilder from "./menu";
-import { SendTextsChannelArgs } from "./preload";
 import { resolveHtmlPath } from "./util";
 
 class AppUpdater {
@@ -34,7 +34,7 @@ ipcMain.on("ipc-example", async (event, arg) => {
   event.reply("ipc-example", msgTemplate("pong"));
 });
 
-ipcMain.on("send-texts", async (event, args: SendTextsChannelArgs) => {
+ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
   const { senderName, messageTemplate, contacts } = args[0];
   const script = getAppleScript(senderName, messageTemplate, contacts);
 

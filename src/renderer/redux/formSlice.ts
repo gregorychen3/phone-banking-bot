@@ -1,15 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Contact } from "types";
+import { Contact, ExecErrorResult, ExecSuccessResult } from "types";
 import { RootState } from "./store";
-
-interface ExecErrorResult {
-  error: Error;
-  stderr: string;
-}
-
-interface ExecSuccessResult {
-  stdout: string;
-}
 
 export interface FormState {
   senderName: string;
