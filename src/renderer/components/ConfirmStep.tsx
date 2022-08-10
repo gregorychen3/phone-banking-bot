@@ -13,7 +13,7 @@ import {
   selectSenderName,
   setActiveStepIdx,
 } from "renderer/redux/formSlice";
-import { ExecErrorResult } from "types";
+import { ExecResult } from "types";
 import { SendStepIdx } from "./SendStep";
 import { setupStepIdx } from "./SetupStep";
 
@@ -46,7 +46,7 @@ export function ConfirmStep() {
     ]);
 
     window.electron.ipcRenderer.once("send-texts", (arg) => {
-      const resp = arg as ExecErrorResult;
+      const resp = arg as ExecResult;
       console.log(resp);
       // TODO: store resp in redux
       setActiveStepIdx(SendStepIdx);

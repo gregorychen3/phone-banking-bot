@@ -9,12 +9,8 @@ export type SendTextsChannelRequest = [
   { senderName: string; messageTemplate: string; contacts: Contact[] }
 ];
 
-export interface ExecErrorResult {
-  error: Error;
+export interface ExecResult {
+  error: Error | null;
   stderr: string;
-  stdout: string;
-}
-
-export interface ExecSuccessResult {
   stdout: string;
 }

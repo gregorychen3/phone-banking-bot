@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Contact, ExecErrorResult, ExecSuccessResult } from "types";
+import { Contact, ExecResult } from "types";
 import { RootState } from "./store";
 
 export interface FormState {
@@ -7,7 +7,7 @@ export interface FormState {
   messageTemplate: string;
   contacts: Contact[];
   activeStepIdx: number;
-  execResult?: ExecErrorResult | ExecSuccessResult;
+  execResult?: ExecResult;
 }
 
 const initialState: FormState = {
@@ -40,10 +40,7 @@ export const formSlice = createSlice({
     setActiveStepIdx: (state, { payload }: PayloadAction<number>) => {
       state.activeStepIdx = payload;
     },
-    setExecResult: (
-      state,
-      { payload }: PayloadAction<ExecErrorResult | ExecSuccessResult>
-    ) => {
+    setExecResult: (state, { payload }: PayloadAction<ExecResult>) => {
       state.execResult = payload;
     },
   },
