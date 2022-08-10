@@ -1,4 +1,4 @@
-import { LinearProgress } from "@mui/material";
+import { Box, Divider, LinearProgress, styled } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import { selectExecResult } from "renderer/redux/formSlice";
@@ -19,10 +19,10 @@ export function SendStep() {
           Oops! Something went wrong.
         </Typography>
         <Typography variant="subtitle1">
-          Please send the below text to Gregory Chen (gregorychen3@gmail.com) so
-          he can fix it.
+          Please copy the below text and email it to Gregory Chen
+          (gregorychen3@gmail.com) so he can fix it.
         </Typography>
-        <pre>{JSON.stringify(execResult, null, 2)}</pre>
+        <CodeBlock>{JSON.stringify(execResult, null, 2)}</CodeBlock>
       </>
     );
   }
@@ -38,3 +38,7 @@ export function SendStep() {
     </>
   );
 }
+
+const CodeBlock = styled("pre")`
+  font-size: 10px;
+`;
