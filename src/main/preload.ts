@@ -1,3 +1,4 @@
+import { ExecException } from "child_process";
 import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
 import { Contact } from "types";
 
@@ -6,6 +7,8 @@ export type Channels = "ipc-example" | "send-texts";
 export type SendTextsChannelArgs = [
   { senderName: string; messageTemplate: string; contacts: Contact[] }
 ];
+
+export type SendTextsChannelResp = { error: ExecException; stderr: string };
 
 contextBridge.exposeInMainWorld("electron", {
   ipcRenderer: {

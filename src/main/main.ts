@@ -34,7 +34,7 @@ ipcMain.on("ipc-example", async (event, arg) => {
   event.reply("ipc-example", msgTemplate("pong"));
 });
 
-ipcMain.on("send-texts", async (_, args: SendTextsChannelArgs) => {
+ipcMain.on("send-texts", async (event, args: SendTextsChannelArgs) => {
   const { senderName, messageTemplate, contacts } = args[0];
   const script = getAppleScript(senderName, messageTemplate, contacts);
 
@@ -43,7 +43,7 @@ ipcMain.on("send-texts", async (_, args: SendTextsChannelArgs) => {
 
   exec(`osascript <<< '${script}'`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      event.reply("send-texts", { error, stderr });
       return;
     }
     if (stderr) {
