@@ -8,7 +8,7 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { execSync } from "child_process";
+import { exec } from "child_process";
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
@@ -41,7 +41,17 @@ ipcMain.on("send-texts", async (_, args: SendTextsChannelArgs) => {
   console.log("Executing applescript:");
   console.log(script);
 
-  execSync(`osascript <<< '${script}'`);
+  exec(`osascript <<< '${script}'`, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  });
 });
 
 if (process.env.NODE_ENV === "production") {
