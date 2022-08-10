@@ -52,6 +52,7 @@ export const {
   setContacts,
   resetForm,
   setActiveStepIdx,
+  setExecResult,
 } = formSlice.actions;
 
 export const selectSenderName = (state: RootState) => state.form.senderName;
@@ -60,5 +61,6 @@ export const selectMessageTemplate = (state: RootState) =>
 export const selectContacts = (state: RootState) => state.form.contacts;
 export const selectActiveStepIdx = (state: RootState) =>
   state.form.activeStepIdx;
+export const selectExecResult = (state: RootState) => state.form.execResult;
 
 export default formSlice.reducer;
