@@ -38,7 +38,7 @@ ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
   const { senderName, messageTemplate, contacts } = args[0];
 
   const script = getAppleScript(senderName, messageTemplate, contacts);
-  exec(`osascript <<< '${script}asdf'`, (error, stdout, stderr) => {
+  exec(`osascript <<< '${script}'`, (error, stdout, stderr) => {
     const res: ExecResult = {
       stdout,
       stderr,
