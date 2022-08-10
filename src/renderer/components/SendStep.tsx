@@ -1,4 +1,4 @@
-import { Box, Divider, LinearProgress, styled } from "@mui/material";
+import { LinearProgress, styled } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import { selectExecResult } from "renderer/redux/formSlice";
