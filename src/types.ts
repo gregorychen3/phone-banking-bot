@@ -12,6 +12,7 @@ export type SendTextsChannelRequest = [
 export interface ExecErrorResult {
   error: Error;
   stderr: string;
+  stdout: string;
 }
 
 export interface ExecSuccessResult {
