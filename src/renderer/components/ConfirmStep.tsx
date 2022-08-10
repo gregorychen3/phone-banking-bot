@@ -6,12 +6,14 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectContacts,
   selectMessageTemplate,
   selectSenderName,
   setActiveStepIdx,
+  setExecResult,
 } from "renderer/redux/formSlice";
 import { ExecResult } from "types";
 import { SendStepIdx } from "./SendStep";
@@ -40,17 +42,18 @@ export function ConfirmStep() {
 
   const handleBack = () => d(setActiveStepIdx(setupStepIdx));
 
+  // register response callback
+  useEffect(() => {
+    window.electron.ipcRenderer.once("send-texts", (res) => {
+      d(setExecResult(res as ExecResult));
+      d(setActiveStepIdx(SendStepIdx));
+    });
+  }, []);
+
   const handleConfirm = () => {
     window.electron.ipcRenderer.sendMessage("send-texts", [
       { senderName, messageTemplate, contacts },
     ]);
-
-    window.electron.ipcRenderer.once("send-texts", (arg) => {
-      const resp = arg as ExecResult;
-      console.log(resp);
-      // TODO: store resp in redux
-      setActiveStepIdx(SendStepIdx);
-    });
   };
 
   return (

@@ -13,7 +13,7 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
 import path from "path";
-import { SendTextsChannelRequest } from "types";
+import { ExecResult, SendTextsChannelRequest } from "types";
 import { getAppleScript } from "./applescript";
 import MenuBuilder from "./menu";
 import { resolveHtmlPath } from "./util";
@@ -41,16 +41,9 @@ ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
   console.log("Executing applescript:");
   console.log(script);
 
-  exec(`osascript <<< '${script}'`, (error, stdout, stderr) => {
-    if (error) {
-      event.reply("send-texts", { error, stderr });
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
+  exec(`osascript <<< '${script}asdf'`, (error, stdout, stderr) => {
+    const res: ExecResult = { error, stdout, stderr };
+    event.reply("send-texts", res);
   });
 });
 

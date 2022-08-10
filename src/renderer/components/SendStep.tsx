@@ -1,8 +1,32 @@
+import { LinearProgress } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { useSelector } from "react-redux";
+import { selectExecResult } from "renderer/redux/formSlice";
 
 export const SendStepIdx = 2;
 
 export function SendStep() {
+  const execResult = useSelector(selectExecResult);
+
+  if (!execResult) {
+    return <LinearProgress />;
+  }
+
+  if (execResult.error) {
+    return (
+      <>
+        <Typography variant="h5" gutterBottom>
+          Oops! Something went wrong.
+        </Typography>
+        <Typography variant="subtitle1">
+          Please send the below text to Gregory Chen (gregorychen3@gmail.com) so
+          he can fix it.
+        </Typography>
+        <pre>{JSON.stringify(execResult, null, 2)}</pre>
+      </>
+    );
+  }
+
   return (
     <>
       <Typography variant="h5" gutterBottom>
