@@ -2,11 +2,21 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Contact } from "types";
 import { RootState } from "./store";
 
+interface ExecErrorResult {
+  error: Error;
+  stderr: string;
+}
+
+interface ExecSuccessResult {
+  stdout: string;
+}
+
 export interface FormState {
   senderName: string;
   messageTemplate: string;
   contacts: Contact[];
   activeStepIdx: number;
+  execResult?: ExecErrorResult | ExecSuccessResult;
 }
 
 const initialState: FormState = {
@@ -14,6 +24,7 @@ const initialState: FormState = {
   messageTemplate: "",
   contacts: [],
   activeStepIdx: 0,
+  execResult: undefined,
 };
 
 export const formSlice = createSlice({
@@ -37,6 +48,12 @@ export const formSlice = createSlice({
     },
     setActiveStepIdx: (state, { payload }: PayloadAction<number>) => {
       state.activeStepIdx = payload;
+    },
+    setExecResult: (
+      state,
+      { payload }: PayloadAction<ExecErrorResult | ExecSuccessResult>
+    ) => {
+      state.execResult = payload;
     },
   },
 });
