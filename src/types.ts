@@ -10,7 +10,18 @@ export type SendTextsChannelRequest = [
 ];
 
 export interface ExecResult {
-  error: Error | null;
+  error?: {
+    // Error props
+    name: string;
+    message: string;
+    stack?: string;
+
+    // ExecException props
+    cmd?: string;
+    killed?: boolean;
+    code?: number;
+    signal?: NodeJS.Signals;
+  } | null;
   stderr: string;
   stdout: string;
 }
