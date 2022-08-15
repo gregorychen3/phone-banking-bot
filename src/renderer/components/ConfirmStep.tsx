@@ -18,7 +18,6 @@ import {
 import { ExecResult } from "types";
 import { contactsStepIdx } from "./ContactsStep";
 import { SendStepIdx } from "./SendStep";
-import { setupStepIdx } from "./SetupStep";
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.success.main,

@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, styled, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-mui";
@@ -11,6 +11,7 @@ import {
 import { Contact } from "types";
 import * as Yup from "yup";
 import { confirmStepIdx } from "./ConfirmStep";
+import CopyContactsScreenshot from "./copy_contacts_screenshot.png";
 import { setupStepIdx } from "./SetupStep";
 
 const formSchema = Yup.object().shape({
@@ -71,11 +72,28 @@ export function ContactsStep() {
       <Form>
         <Grid container spacing={4}>
           <Grid item xs={12}>
+            <Typography variant="h6">Prepare Your Google Sheet</Typography>
+            <ul>
+              <li>1st column should be the recipients' names.</li>
+              <li>2nd column should be the recipients' phone numbers.</li>
+              <li>
+                For example:
+                <Img src={CopyContactsScreenshot} />
+              </li>
+            </ul>
+            <Typography variant="h6">Copy and Paste</Typography>
+            <ul>
+              <li>Highlight and copy only the cells that have data.</li>
+              <li>Paste below.</li>
+              <li>
+                Do not attempt to manually input data below (only copy and
+                paste).
+              </li>
+            </ul>
             <Field
               component={TextField}
               name="rawContacts"
               label="Contacts"
-              helperText="Copy and paste cells from Google Sheets"
               type="text"
               multiline
               fullWidth
@@ -114,3 +132,7 @@ const parseRawContacts = (raw: string) => {
 
   return ret;
 };
+
+const Img = styled("img")`
+  width: 100%;
+`;
