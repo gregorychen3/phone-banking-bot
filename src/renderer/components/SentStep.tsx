@@ -1,11 +1,18 @@
-import { LinearProgress, styled } from "@mui/material";
+import { Button, Grid, LinearProgress, styled } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { useSelector } from "react-redux";
-import { selectExecResult } from "renderer/redux/formSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearExecResult,
+  resetForm,
+  selectExecResult,
+  setActiveStepIdx,
+} from "renderer/redux/formSlice";
+import { setupStepIdx } from "./SetupStep";
 
 export const SendtStepIdx = 3;
 
 export function SentStep() {
+  const d = useDispatch();
   const execResult = useSelector(selectExecResult);
 
   if (!execResult) {
@@ -27,14 +34,29 @@ export function SentStep() {
     );
   }
 
+  const handleStartOver = () => {
+    d(setActiveStepIdx(setupStepIdx));
+    d(resetForm());
+    d(clearExecResult());
+  };
+
   return (
     <>
-      <Typography variant="h5" gutterBottom>
-        Texts Sent!
-      </Typography>
-      <Typography variant="subtitle1">
-        Please follow up with text conversations in the Messages app.
-      </Typography>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Typography variant="h5" gutterBottom>
+            Texts Sent!
+          </Typography>
+          <Typography variant="subtitle1">
+            Please follow up with text conversations in the Messages app.
+          </Typography>
+        </Grid>
+        <Grid container item xs={12} justifyContent="flex-end">
+          <Button variant="contained" onClick={handleStartOver}>
+            Start Over
+          </Button>
+        </Grid>
+      </Grid>
     </>
   );
 }

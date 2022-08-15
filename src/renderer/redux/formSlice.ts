@@ -43,6 +43,9 @@ export const formSlice = createSlice({
     setExecResult: (state, { payload }: PayloadAction<ExecResult>) => {
       state.execResult = payload;
     },
+    clearExecResult: (state) => {
+      state.execResult = undefined;
+    },
   },
 });
 
@@ -53,6 +56,7 @@ export const {
   resetForm,
   setActiveStepIdx,
   setExecResult,
+  clearExecResult,
 } = formSlice.actions;
 
 export const selectSenderName = (state: RootState) => state.form.senderName;
