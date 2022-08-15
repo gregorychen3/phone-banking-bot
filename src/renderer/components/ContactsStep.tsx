@@ -96,6 +96,7 @@ export function ContactsStep() {
               label="Contacts"
               type="text"
               multiline
+              minRows={3}
               fullWidth
             />
           </Grid>
