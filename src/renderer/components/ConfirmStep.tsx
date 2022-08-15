@@ -31,7 +31,7 @@ const EmphasisInlineText = styled("span")(({ theme }) => ({
   color: theme.palette.success.main,
 }));
 
-export const confirmStepIdx = 1;
+export const confirmStepIdx = 2;
 
 export function ConfirmStep() {
   const d = useDispatch();

@@ -5,18 +5,21 @@ import Stepper from "@mui/material/Stepper";
 import { useSelector } from "react-redux";
 import { selectActiveStepIdx } from "renderer/redux/formSlice";
 import { ConfirmStep } from "./ConfirmStep";
+import { ContactsStep } from "./ContactsStep";
 import { SendStep } from "./SendStep";
 import { SetupStep } from "./SetupStep";
 
-const steps = ["Setup", "Confirm", "Send"];
+const steps = ["Setup", "Contacts", "Confirm", "Send"];
 
 function getStepContent(step: number) {
   switch (step) {
     case 0:
       return <SetupStep />;
     case 1:
-      return <ConfirmStep />;
+      return <ContactsStep />;
     case 2:
+      return <ConfirmStep />;
+    case 3:
       return <SendStep />;
     default:
       throw new Error(`Unknown step ${step}`);
