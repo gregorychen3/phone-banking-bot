@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -34,6 +35,9 @@ export function PhoneBankingStepper() {
       variant="outlined"
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
     >
+      <Typography component="h1" variant="h4" align="center">
+        Send Texts
+      </Typography>
       <Stepper activeStep={activeStepIdx} sx={{ pt: 3, pb: 5 }}>
         {steps.map((label) => (
           <Step key={label}>
