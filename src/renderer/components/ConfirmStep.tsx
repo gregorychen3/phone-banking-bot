@@ -25,6 +25,7 @@ const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
 
 const EmphasisText = styled("div")(({ theme }) => ({
   color: theme.palette.success.main,
+  whiteSpace: "pre-line",
 }));
 
 const EmphasisInlineText = styled("span")(({ theme }) => ({
