@@ -11,6 +11,7 @@ import {
 import { Contact } from "types";
 import * as Yup from "yup";
 import { confirmStepIdx } from "./ConfirmStep";
+import { setupStepIdx } from "./SetupStep";
 
 const formSchema = Yup.object().shape({
   rawContacts: Yup.string()
@@ -55,6 +56,8 @@ export function ContactsStep() {
     rawContacts: contacts.map((c) => `${c.name}\t${c.number}`).join("\n"),
   };
 
+  const handleBack = () => d(setActiveStepIdx(setupStepIdx));
+
   return (
     <Formik
       initialValues={initialValues}
@@ -79,6 +82,7 @@ export function ContactsStep() {
             />
           </Grid>
           <Grid container item xs={12} justifyContent="flex-end">
+            <Button onClick={handleBack}>Back</Button>
             <Button variant="contained" type="submit">
               Next
             </Button>

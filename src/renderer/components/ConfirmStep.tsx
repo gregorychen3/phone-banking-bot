@@ -16,6 +16,7 @@ import {
   setExecResult,
 } from "renderer/redux/formSlice";
 import { ExecResult } from "types";
+import { contactsStepIdx } from "./ContactsStep";
 import { SendStepIdx } from "./SendStep";
 import { setupStepIdx } from "./SetupStep";
 
@@ -40,7 +41,7 @@ export function ConfirmStep() {
   const messageTemplate = useSelector(selectMessageTemplate);
   const contacts = useSelector(selectContacts);
 
-  const handleBack = () => d(setActiveStepIdx(setupStepIdx));
+  const handleBack = () => d(setActiveStepIdx(contactsStepIdx));
 
   // register response callback
   useEffect(() => {
