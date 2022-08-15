@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import { selectExecResult } from "renderer/redux/formSlice";
 
-export const SendStepIdx = 2;
+export const SendStepIdx = 3;
 
 export function SendStep() {
   const execResult = useSelector(selectExecResult);
