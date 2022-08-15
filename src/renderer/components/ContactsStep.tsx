@@ -14,6 +14,7 @@ import { confirmStepIdx } from "./ConfirmStep";
 
 const formSchema = Yup.object().shape({
   rawContacts: Yup.string()
+    .trim()
     .required("Required")
     .test(
       "is-valid-contact-data",
@@ -59,7 +60,7 @@ export function ContactsStep() {
       initialValues={initialValues}
       validationSchema={formSchema}
       onSubmit={(values, { setSubmitting }) => {
-        d(setContacts(parseRawContacts(values.rawContacts)));
+        d(setContacts(parseRawContacts(values.rawContacts.trim())));
         setSubmitting(false);
         d(setActiveStepIdx(confirmStepIdx));
       }}

@@ -14,8 +14,9 @@ import * as Yup from "yup";
 import { contactsStepIdx } from "./ContactsStep";
 
 const formSchema = Yup.object().shape({
-  senderName: Yup.string().required("Required"),
+  senderName: Yup.string().trim().required("Required"),
   messageTemplate: Yup.string()
+    .trim()
     .required("Required")
     .matches(/SENDER_NAME/, "Template should contain SENDER_NAME placeholder")
     .matches(
@@ -42,8 +43,8 @@ export function SetupStep() {
       initialValues={initialValues}
       validationSchema={formSchema}
       onSubmit={(values, { setSubmitting }) => {
-        d(setSenderName(values.senderName));
-        d(setMessageTemplate(values.messageTemplate));
+        d(setSenderName(values.senderName.trim()));
+        d(setMessageTemplate(values.messageTemplate.trim()));
         setSubmitting(false);
         d(setActiveStepIdx(contactsStepIdx));
       }}
