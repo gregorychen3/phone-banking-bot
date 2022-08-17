@@ -8,15 +8,18 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { exec } from "child_process";
+import childProcess from "child_process";
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
 import path from "path";
 import { ExecResult, SendTextsChannelRequest } from "types";
+import util from "util";
 import { getAppleScript } from "./applescript";
 import MenuBuilder from "./menu";
 import { resolveHtmlPath } from "./util";
+
+const exec = util.promisify(childProcess.exec);
 
 class AppUpdater {
   constructor() {
@@ -37,25 +40,15 @@ ipcMain.on("ipc-example", async (event, arg) => {
 ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
   const { senderName, messageTemplate, contacts } = args[0];
 
-  const script = getAppleScript(senderName, messageTemplate, contacts);
-  exec(`osascript <<< '${script}'`, (error, stdout, stderr) => {
-    const res: ExecResult = {
-      stdout,
-      stderr,
-      error: error
-        ? {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
-            cmd: error.cmd,
-            killed: error.killed,
-            code: error.code,
-            signal: error.signal,
-          }
-        : undefined,
-    };
-    event.reply("send-texts", res);
-  });
+  try {
+    const script = getAppleScript(senderName, messageTemplate, contacts);
+    const { stdout, stderr } = await exec(`osascriptt <<< '${script}'`);
+    const successRes: ExecResult = { stdout, stderr };
+    event.reply("send-texts", successRes);
+  } catch (e: any) {
+    const errorRes: ExecResult = { error: `${e}` };
+    event.reply("send-texts", errorRes);
+  }
 });
 
 if (process.env.NODE_ENV === "production") {

@@ -9,19 +9,14 @@ export type SendTextsChannelRequest = [
   { senderName: string; messageTemplate: string; contacts: Contact[] }
 ];
 
-export interface ExecResult {
-  error?: {
-    // Error props
-    name: string;
-    message: string;
-    stack?: string;
+export type ErrorExecResult = { error?: string };
+export type SuccessExecResult = { stderr: string; stdout: string };
+export type ExecResult = ErrorExecResult | SuccessExecResult;
 
-    // ExecException props
-    cmd?: string;
-    killed?: boolean;
-    code?: number;
-    signal?: NodeJS.Signals;
-  } | null;
-  stderr: string;
-  stdout: string;
+export function isErrorExecResult(x: ExecResult): x is ErrorExecResult {
+  return x.hasOwnProperty("error") ? true : false;
+}
+
+export function isSuccessExecResult(x: ExecResult): x is ErrorExecResult {
+  return !isErrorExecResult(x);
 }
