@@ -67,6 +67,7 @@ export function SetupStep() {
               label="Text Message Template"
               type="text"
               helperText="Use SENDER_NAME and RECIPIENT_NAME placeholders"
+              placeholder={templatePlaceholder}
               multiline
               minRows={3}
               fullWidth
@@ -82,3 +83,10 @@ export function SetupStep() {
     </Formik>
   );
 }
+
+const templatePlaceholder = `E.g.,
+Hi RECIPIENT_NAME,
+Hope to see you at our next Lib Forum!
+
+Best,
+SENDER_NAME`;
