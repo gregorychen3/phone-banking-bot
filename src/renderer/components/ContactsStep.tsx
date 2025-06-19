@@ -11,7 +11,7 @@ import {
 import { ControlledTextField } from './ControlledTextField';
 import CopyContactsScreenshot from './copy_contacts_screenshot.png';
 import { setupStepIdx } from './SetupStep';
-// import { confirmStepIdx } from './ConfirmStep';
+import { confirmStepIdx } from './ConfirmStep';
 
 interface FormValues {
   rawContacts: string;
@@ -35,7 +35,7 @@ export function ContactsStep() {
 
   const onSubmit = (values: FormValues) => {
     d(setContacts(parseRawContacts(values.rawContacts.trim())));
-    d(setActiveStepIdx(confirmStepIdx)); // TODO
+    d(setActiveStepIdx(confirmStepIdx));
   };
 
   return (
