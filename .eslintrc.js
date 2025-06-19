@@ -17,6 +17,7 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'error',
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
+    'react/no-unescaped-entities': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
   },
   parserOptions: {
