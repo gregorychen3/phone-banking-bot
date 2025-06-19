@@ -8,10 +8,13 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import { exec } from 'child_process';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
+import path from 'path';
+import { ExecResult, SendTextsChannelRequest } from '../types';
+import { getAppleScript } from './applescript';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -29,6 +32,20 @@ ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
+});
+
+ipcMain.on('send-texts', async (event, args: SendTextsChannelRequest) => {
+  const { senderName, messageTemplate, contacts } = args[0];
+
+  try {
+    const script = getAppleScript(senderName, messageTemplate, contacts);
+    const { stdout, stderr } = await exec(`osascript <<< '${script}'`);
+    const successRes: ExecResult = { stdout, stderr };
+    event.reply('send-texts', successRes);
+  } catch (e: any) {
+    const errorRes: ExecResult = { error: `${e}` };
+    event.reply('send-texts', errorRes);
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {
