@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ExecResult } from '../../types';
 import {
   selectContacts,
   selectMessageTemplate,
@@ -15,9 +16,8 @@ import {
   setActiveStepIdx,
   setExecResult,
 } from '../redux/formSlice';
-import { ExecResult } from '../../types';
 import { contactsStepIdx } from './ContactsStep';
-import { SendtStepIdx } from './SentStep';
+import { SentStepIdx } from './SentStep';
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.success.main,
@@ -47,7 +47,7 @@ export function ConfirmStep() {
   useEffect(() => {
     window.electron.ipcRenderer.once('send-texts', (res) => {
       d(setExecResult(res as ExecResult));
-      d(setActiveStepIdx(SendtStepIdx));
+      d(setActiveStepIdx(SentStepIdx));
     });
   }, [d]);
 
