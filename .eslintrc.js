@@ -19,6 +19,7 @@ module.exports = {
     'no-use-before-define': 'off',
     'react/no-unescaped-entities': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    'no-plusplus': 'off',
   },
   parserOptions: {
     ecmaVersion: 2022,
