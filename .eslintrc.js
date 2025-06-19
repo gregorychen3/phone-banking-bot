@@ -16,6 +16,7 @@ module.exports = {
     'no-unused-expressions': 'off',
     '@typescript-eslint/no-shadow': 'error',
     'no-unused-vars': 'off',
+    'no-use-before-define': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
   },
   parserOptions: {
