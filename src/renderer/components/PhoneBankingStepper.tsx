@@ -5,6 +5,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import { useSelector } from 'react-redux';
 import { selectActiveStepIdx } from '../redux/formSlice';
+import { ContactsStep } from './ContactsStep';
 import { SetupStep } from './SetupStep';
 
 const steps = ['Setup', 'Contacts', 'Confirm', 'Sent'];
@@ -13,8 +14,8 @@ function getStepContent(step: number) {
   switch (step) {
     case 0:
       return <SetupStep />;
-    // case 1:
-    //   return <ContactsStep />;
+    case 1:
+      return <ContactsStep />;
     // case 2:
     //   return <ConfirmStep />;
     // case 3:

@@ -9,8 +9,8 @@ import {
   setMessageTemplate,
   setSenderName,
 } from '../redux/formSlice';
+import { contactsStepIdx } from './ContactsStep';
 import { ControlledTextField } from './ControlledTextField';
-// import { contactsStepIdx } from './ContactsStep';
 
 interface FormValues {
   senderName: string;
@@ -33,7 +33,7 @@ export function SetupStep() {
   const onSubmit = (values: FormValues) => {
     d(setSenderName(values.senderName.trim()));
     d(setMessageTemplate(values.messageTemplate.trim()));
-    d(setActiveStepIdx(1)); // TODO
+    d(setActiveStepIdx(contactsStepIdx));
   };
 
   return (
