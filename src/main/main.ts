@@ -13,6 +13,7 @@ import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
+import { text } from 'stream/consumers';
 import { ExecResult, SendTextsChannelRequest } from '../types';
 import { getAppleScript } from './applescript';
 import MenuBuilder from './menu';
@@ -40,7 +41,10 @@ ipcMain.on('send-texts', async (event, args: SendTextsChannelRequest) => {
   try {
     const script = getAppleScript(senderName, messageTemplate, contacts);
     const { stdout, stderr } = await exec(`osascript <<< '${script}'`);
-    const successRes: ExecResult = { stdout, stderr };
+    const successRes: ExecResult = {
+      stdout: stdout ? await text(stdout) : '',
+      stderr: stderr ? await text(stderr) : '',
+    };
     event.reply('send-texts', successRes);
   } catch (e: any) {
     const errorRes: ExecResult = { error: `${e}` };
