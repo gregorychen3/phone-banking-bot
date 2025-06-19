@@ -20,6 +20,7 @@ module.exports = {
     'react/no-unescaped-entities': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
     'no-plusplus': 'off',
+    'import/no-cycle': 'off',
   },
   parserOptions: {
     ecmaVersion: 2022,
