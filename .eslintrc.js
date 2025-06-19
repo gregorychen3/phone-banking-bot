@@ -13,6 +13,7 @@ module.exports = {
     'import/no-import-module-exports': 'off',
     'import/prefer-default-export': 'off',
     'no-shadow': 'off',
+    'no-unused-expressions': 'off',
     '@typescript-eslint/no-shadow': 'error',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
