@@ -18,7 +18,6 @@ const formSchema = Yup.object().shape({
   messageTemplate: Yup.string()
     .trim()
     .required("Required")
-    .matches(/SENDER_NAME/, "Template should contain SENDER_NAME placeholder")
     .matches(
       /RECIPIENT_NAME/,
       "Template should contain RECIPIENT_NAME placeholder"
@@ -54,19 +53,10 @@ export function SetupStep() {
           <Grid item xs={12}>
             <Field
               component={TextField}
-              name="senderName"
-              label="Sender Name"
-              type="text"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Field
-              component={TextField}
               name="messageTemplate"
-              label="Text Message Template"
+              label="Message Template"
               type="text"
-              helperText="Use SENDER_NAME and RECIPIENT_NAME placeholders"
+              helperText="Use RECIPIENT_NAME placeholders"
               placeholder={templatePlaceholder}
               multiline
               minRows={3}
@@ -84,9 +74,5 @@ export function SetupStep() {
   );
 }
 
-const templatePlaceholder = `E.g.,
-Hi RECIPIENT_NAME,
-Hope to see you at our next Lib Forum!
-
-Best,
-SENDER_NAME`;
+const templatePlaceholder = `Hi RECIPIENT_NAME, this is John from the community center. Hope to see you at our next event!
+`;
