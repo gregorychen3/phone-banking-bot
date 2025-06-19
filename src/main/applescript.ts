@@ -1,13 +1,13 @@
-import { Contact } from 'types';
+import { Contact } from "types";
 
 /**
  * \, ", and ' have special meaning in Applescript and need to be escaped. See:
  * https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-DontLinkElementID_57
  */
 const escapeStr = (s: string) =>
-  s.replaceAll(/[\\"]/g, '\\$&').replaceAll(`'`, `'"'"'`);
+  s.replaceAll(/[\\"]/g, "\\$&").replaceAll(`'`, `'"'"'`);
 
-const removeNonNumericChars = (s: string) => s.replace(/\D/g, '');
+const removeNonNumericChars = (s: string) => s.replace(/\D/g, "");
 
 export const getAppleScript = (
   senderName: string,
@@ -23,11 +23,11 @@ export const getAppleScript = (
       return `set recipient to buddy "${number}" of smsService
               send "${msg}" to recipient`;
     })
-    .join('\n')}
+    .join("\n")}
   end tell`;
 
 const renderMessage = (
   messageTemplate: string,
   senderName: string,
   recipientName: string,
-) => escapeStr(messageTemplate.replaceAll('RECIPIENT_NAME', recipientName));
+) => escapeStr(messageTemplate.replaceAll("RECIPIENT_NAME", recipientName));

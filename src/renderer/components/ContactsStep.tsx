@@ -1,17 +1,17 @@
-import { Grid, styled, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { Contact } from '../../types';
+import { Grid, styled, Typography } from "@mui/material";
+import Button from "@mui/material/Button";
+import { FormProvider, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Contact } from "../../types";
 import {
   selectContacts,
   setActiveStepIdx,
   setContacts,
-} from '../redux/formSlice';
-import { ControlledTextField } from './ControlledTextField';
-import CopyContactsScreenshot from './copy_contacts_screenshot.png';
-import { setupStepIdx } from './SetupStep';
-import { confirmStepIdx } from './ConfirmStep';
+} from "../redux/formSlice";
+import { ControlledTextField } from "./ControlledTextField";
+import CopyContactsScreenshot from "./copy_contacts_screenshot.png";
+import { setupStepIdx } from "./SetupStep";
+import { confirmStepIdx } from "./ConfirmStep";
 
 interface FormValues {
   rawContacts: string;
@@ -28,9 +28,9 @@ export function ContactsStep() {
 
   const form = useForm<FormValues>({
     defaultValues: {
-      rawContacts: contacts.map((c) => `${c.name}\t${c.number}`).join('\n'),
+      rawContacts: contacts.map((c) => `${c.name}\t${c.number}`).join("\n"),
     },
-    mode: 'onBlur',
+    mode: "onBlur",
   });
 
   const onSubmit = (values: FormValues) => {
@@ -63,26 +63,26 @@ export function ContactsStep() {
             </ul>
             <ControlledTextField
               ctrlProps={{
-                name: 'rawContacts',
+                name: "rawContacts",
                 rules: {
                   required: true,
                   validate: (v) => {
                     // not sure why, by this can be undefined while the form is still being filled out
                     if (!v) {
-                      return 'Required';
+                      return "Required";
                     }
 
-                    const rows = v.split('\n');
+                    const rows = v.split("\n");
                     for (let i = 0; i < rows.length; i++) {
                       const row = rows[i];
-                      const rowSplit = row.split('\t');
+                      const rowSplit = row.split("\t");
                       if (rowSplit.length !== 2) {
-                        return 'Each row must have: [name, phone_num]';
+                        return "Each row must have: [name, phone_num]";
                       }
 
                       const [name, number] = rowSplit;
                       if (!name || !number) {
-                        return 'Each row must have: [name, phone_num]';
+                        return "Each row must have: [name, phone_num]";
                       }
                     }
 
@@ -91,8 +91,8 @@ export function ContactsStep() {
                 },
               }}
               textFieldProps={{
-                label: 'Contacts',
-                type: 'text',
+                label: "Contacts",
+                type: "text",
                 multiline: true,
                 minRows: 3,
                 fullWidth: true,
@@ -114,10 +114,10 @@ export function ContactsStep() {
 const parseRawContacts = (raw: string) => {
   const ret: Contact[] = [];
 
-  const rows = raw.split('\n');
+  const rows = raw.split("\n");
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
-    const rowSplit = row.split('\t');
+    const rowSplit = row.split("\t");
     if (rowSplit.length !== 2) {
       throw new Error(`Malformed contact row: ${row}`);
     }
@@ -133,6 +133,6 @@ const parseRawContacts = (raw: string) => {
   return ret;
 };
 
-const Img = styled('img')`
+const Img = styled("img")`
   width: 100%;
 `;

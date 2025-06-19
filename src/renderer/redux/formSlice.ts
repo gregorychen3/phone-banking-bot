@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Contact, ExecResult } from '../../types';
-import { RootState } from './store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Contact, ExecResult } from "../../types";
+import { RootState } from "./store";
 
 export interface FormState {
   senderName: string;
@@ -11,15 +11,15 @@ export interface FormState {
 }
 
 const initialState: FormState = {
-  senderName: '',
-  messageTemplate: '',
+  senderName: "",
+  messageTemplate: "",
   contacts: [],
   activeStepIdx: 0,
   execResult: undefined,
 };
 
 export const formSlice = createSlice({
-  name: 'form',
+  name: "form",
   initialState,
   reducers: {
     setSenderName: (state, { payload }: PayloadAction<string>) => {
@@ -32,8 +32,8 @@ export const formSlice = createSlice({
       state.contacts = payload;
     },
     resetForm: (state) => {
-      state.senderName = '';
-      state.messageTemplate = '';
+      state.senderName = "";
+      state.messageTemplate = "";
       state.contacts = [];
       state.activeStepIdx = 0;
     },

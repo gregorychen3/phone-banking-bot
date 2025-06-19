@@ -1,34 +1,34 @@
-import { Button, Grid, styled } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ExecResult } from '../../types';
+import { Button, Grid, styled } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ExecResult } from "../../types";
 import {
   selectContacts,
   selectMessageTemplate,
   selectSenderName,
   setActiveStepIdx,
   setExecResult,
-} from '../redux/formSlice';
-import { contactsStepIdx } from './ContactsStep';
-import { SentStepIdx } from './SentStep';
+} from "../redux/formSlice";
+import { contactsStepIdx } from "./ContactsStep";
+import { SentStepIdx } from "./SentStep";
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.success.main,
 }));
 
-const EmphasisText = styled('div')(({ theme }) => ({
+const EmphasisText = styled("div")(({ theme }) => ({
   color: theme.palette.success.main,
-  whiteSpace: 'pre-line',
+  whiteSpace: "pre-line",
 }));
 
-const EmphasisInlineText = styled('span')(({ theme }) => ({
+const EmphasisInlineText = styled("span")(({ theme }) => ({
   color: theme.palette.success.main,
 }));
 
@@ -45,14 +45,14 @@ export function ConfirmStep() {
 
   // register response callback
   useEffect(() => {
-    window.electron.ipcRenderer.once('send-texts', (res) => {
+    window.electron.ipcRenderer.once("send-texts", (res) => {
       d(setExecResult(res as ExecResult));
       d(setActiveStepIdx(SentStepIdx));
     });
   }, [d]);
 
   const handleConfirm = () => {
-    window.electron.ipcRenderer.sendMessage('send-texts', [
+    window.electron.ipcRenderer.sendMessage("send-texts", [
       { senderName, messageTemplate, contacts },
     ]);
   };

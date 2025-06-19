@@ -1,14 +1,14 @@
-import { Button, Grid, LinearProgress, styled } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
-import { isErrorExecResult } from '../../types';
+import { Button, Grid, LinearProgress, styled } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import { useDispatch, useSelector } from "react-redux";
+import { isErrorExecResult } from "../../types";
 import {
   clearExecResult,
   resetForm,
   selectExecResult,
   setActiveStepIdx,
-} from '../redux/formSlice';
-import { setupStepIdx } from './SetupStep';
+} from "../redux/formSlice";
+import { setupStepIdx } from "./SetupStep";
 
 export const SentStepIdx = 3;
 
@@ -60,6 +60,6 @@ export function SentStep() {
   );
 }
 
-const CodeBlock = styled('pre')`
+const CodeBlock = styled("pre")`
   font-size: 10px;
 `;

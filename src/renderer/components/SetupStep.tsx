@@ -1,16 +1,16 @@
-import { Grid } from '@mui/material';
-import Button from '@mui/material/Button';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { Grid } from "@mui/material";
+import Button from "@mui/material/Button";
+import { FormProvider, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectMessageTemplate,
   selectSenderName,
   setActiveStepIdx,
   setMessageTemplate,
   setSenderName,
-} from '../redux/formSlice';
-import { contactsStepIdx } from './ContactsStep';
-import { ControlledTextField } from './ControlledTextField';
+} from "../redux/formSlice";
+import { contactsStepIdx } from "./ContactsStep";
+import { ControlledTextField } from "./ControlledTextField";
 
 interface FormValues {
   senderName: string;
@@ -27,7 +27,7 @@ export function SetupStep() {
 
   const form = useForm<FormValues>({
     defaultValues: { senderName, messageTemplate },
-    mode: 'onBlur',
+    mode: "onBlur",
   });
 
   const onSubmit = (values: FormValues) => {
@@ -43,19 +43,19 @@ export function SetupStep() {
           <Grid size={{ xs: 12 }}>
             <ControlledTextField
               ctrlProps={{
-                name: 'messageTemplate',
+                name: "messageTemplate",
                 rules: {
                   required: true,
                   validate: (v) =>
-                    v.includes('RECIPIENT_NAME')
+                    v.includes("RECIPIENT_NAME")
                       ? true
-                      : 'Template must contain RECIPIENT_NAME placeholder',
+                      : "Template must contain RECIPIENT_NAME placeholder",
                 },
               }}
               textFieldProps={{
-                label: 'Message Template',
-                type: 'text',
-                helperText: 'Use RECIPIENT_NAME placeholders',
+                label: "Message Template",
+                type: "text",
+                helperText: "Use RECIPIENT_NAME placeholders",
                 placeholder: templatePlaceholder,
                 multiline: true,
                 minRows: 3,
