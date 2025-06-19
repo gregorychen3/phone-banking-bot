@@ -1,5 +1,14 @@
 import { Contact } from 'types';
 
+/**
+ * \, ", and ' have special meaning in Applescript and need to be escaped. See:
+ * https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-DontLinkElementID_57
+ */
+const escapeStr = (s: string) =>
+  s.replaceAll(/[\\"]/g, '\\$&').replaceAll(`'`, `'"'"'`);
+
+const removeNonNumericChars = (s: string) => s.replace(/\D/g, '');
+
 export const getAppleScript = (
   senderName: string,
   messageTemplate: string,
@@ -22,12 +31,3 @@ const renderMessage = (
   senderName: string,
   recipientName: string,
 ) => escapeStr(messageTemplate.replaceAll('RECIPIENT_NAME', recipientName));
-
-/**
- * \, ", and ' have special meaning in Applescript and need to be escaped. See:
- * https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-DontLinkElementID_57
- */
-const escapeStr = (s: string) =>
-  s.replaceAll(/[\\"]/g, '\\$&').replaceAll(`'`, `'"'"'`);
-
-const removeNonNumericChars = (s: string) => s.replace(/\D/g, '');
