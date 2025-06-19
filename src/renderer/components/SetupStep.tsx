@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectMessageTemplate,
@@ -9,18 +9,8 @@ import {
   setMessageTemplate,
   setSenderName,
 } from '../redux/formSlice';
-import { contactsStepIdx } from './ContactsStep';
-
-const formSchema = Yup.object().shape({
-  senderName: Yup.string().trim().required('Required'),
-  messageTemplate: Yup.string()
-    .trim()
-    .required('Required')
-    .matches(
-      /RECIPIENT_NAME/,
-      'Template should contain RECIPIENT_NAME placeholder',
-    ),
-});
+import { ControlledTextField } from './ControlledTextField';
+// import { contactsStepIdx } from './ContactsStep';
 
 interface FormValues {
   senderName: string;
@@ -35,45 +25,52 @@ export function SetupStep() {
   const senderName = useSelector(selectSenderName);
   const messageTemplate = useSelector(selectMessageTemplate);
 
-  //
-
   const form = useForm<FormValues>({
-    defaultValues: {
-      senderName,
-      messageTemplate,
-    },
-    mode: 'onChange',
+    defaultValues: { senderName, messageTemplate },
+    mode: 'onBlur',
   });
 
   const onSubmit = (values: FormValues) => {
     d(setSenderName(values.senderName.trim()));
     d(setMessageTemplate(values.messageTemplate.trim()));
-    d(setActiveStepIdx(contactsStepIdx));
+    d(setActiveStepIdx(1)); // TODO
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
-      <Grid container spacing={4}>
-        <Grid size={{ xs: 12 }}>
-          <Field
-            component={TextField}
-            name="messageTemplate"
-            label="Message Template"
-            type="text"
-            helperText="Use RECIPIENT_NAME placeholders"
-            placeholder={templatePlaceholder}
-            multiline
-            minRows={3}
-            fullWidth
-          />
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Grid container spacing={4}>
+          <Grid size={{ xs: 12 }}>
+            <ControlledTextField
+              ctrlProps={{
+                name: 'messageTemplate',
+                rules: {
+                  required: true,
+                  validate: (v) =>
+                    v.includes('RECIPIENT_NAME')
+                      ? true
+                      : 'Template must contain RECIPIENT_NAME placeholder',
+                },
+              }}
+              textFieldProps={{
+                label: 'Message Template',
+                type: 'text',
+                helperText: 'Use RECIPIENT_NAME placeholders',
+                placeholder: templatePlaceholder,
+                multiline: true,
+                minRows: 3,
+                fullWidth: true,
+              }}
+            />
+          </Grid>
+          <Grid container size={{ xs: 12 }} justifyContent="flex-end">
+            <Button variant="contained" type="submit">
+              Next
+            </Button>
+          </Grid>
         </Grid>
-        <Grid container size={{ xs: 12 }} justifyContent="flex-end">
-          <Button variant="contained" type="submit">
-            Next
-          </Button>
-        </Grid>
-      </Grid>
-    </form>
+      </form>
+    </FormProvider>
   );
 }
 
