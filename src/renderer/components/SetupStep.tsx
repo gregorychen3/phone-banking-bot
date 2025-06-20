@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
-import { Field, Form, Formik } from "formik";
-import { TextField } from "formik-mui";
+import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectMessageTemplate,
@@ -9,20 +8,14 @@ import {
   setActiveStepIdx,
   setMessageTemplate,
   setSenderName,
-} from "renderer/redux/formSlice";
-import * as Yup from "yup";
+} from "../redux/formSlice";
 import { contactsStepIdx } from "./ContactsStep";
+import { ControlledTextField } from "./ControlledTextField";
 
-const formSchema = Yup.object().shape({
-  senderName: Yup.string().trim().required("Required"),
-  messageTemplate: Yup.string()
-    .trim()
-    .required("Required")
-    .matches(
-      /RECIPIENT_NAME/,
-      "Template should contain RECIPIENT_NAME placeholder"
-    ),
-});
+interface FormValues {
+  senderName: string;
+  messageTemplate: string;
+}
 
 export const setupStepIdx = 0;
 
@@ -32,47 +25,53 @@ export function SetupStep() {
   const senderName = useSelector(selectSenderName);
   const messageTemplate = useSelector(selectMessageTemplate);
 
-  const initialValues = {
-    senderName,
-    messageTemplate,
+  const form = useForm<FormValues>({
+    defaultValues: { senderName, messageTemplate },
+    mode: "onBlur",
+  });
+
+  const onSubmit = (values: FormValues) => {
+    d(setSenderName(values.senderName.trim()));
+    d(setMessageTemplate(values.messageTemplate.trim()));
+    d(setActiveStepIdx(contactsStepIdx));
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={formSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        d(setSenderName(values.senderName.trim()));
-        d(setMessageTemplate(values.messageTemplate.trim()));
-        setSubmitting(false);
-        d(setActiveStepIdx(contactsStepIdx));
-      }}
-    >
-      <Form>
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <Field
-              component={TextField}
-              name="messageTemplate"
-              label="Message Template"
-              type="text"
-              helperText="Use RECIPIENT_NAME placeholders"
-              placeholder={templatePlaceholder}
-              multiline
-              minRows={3}
-              fullWidth
+          <Grid size={{ xs: 12 }}>
+            <ControlledTextField
+              ctrlProps={{
+                name: "messageTemplate",
+                rules: {
+                  required: true,
+                  validate: (v) =>
+                    v.includes("RECIPIENT_NAME")
+                      ? true
+                      : "Template must contain RECIPIENT_NAME placeholder",
+                },
+              }}
+              textFieldProps={{
+                label: "Message Template",
+                type: "text",
+                helperText: "Use RECIPIENT_NAME placeholders",
+                placeholder: templatePlaceholder,
+                multiline: true,
+                minRows: 3,
+                fullWidth: true,
+              }}
             />
           </Grid>
-          <Grid container item xs={12} justifyContent="flex-end">
+          <Grid container size={{ xs: 12 }} justifyContent="flex-end">
             <Button variant="contained" type="submit">
               Next
             </Button>
           </Grid>
         </Grid>
-      </Form>
-    </Formik>
+      </form>
+    </FormProvider>
   );
 }
 
-const templatePlaceholder = `Hi RECIPIENT_NAME, this is John from the community center. Hope to see you at our next event!
-`;
+const templatePlaceholder = `Hi RECIPIENT_NAME, this is John from the community center. Hope to see you at our next event!`;

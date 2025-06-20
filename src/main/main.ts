@@ -8,18 +8,16 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import childProcess from "child_process";
+import { exec } from "child_process";
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
 import path from "path";
-import { ExecResult, SendTextsChannelRequest } from "types";
-import util from "util";
+import { text } from "stream/consumers";
+import { ExecResult, SendTextsChannelRequest } from "../types";
 import { getAppleScript } from "./applescript";
 import MenuBuilder from "./menu";
 import { resolveHtmlPath } from "./util";
-
-const exec = util.promisify(childProcess.exec);
 
 class AppUpdater {
   constructor() {
@@ -43,7 +41,10 @@ ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
   try {
     const script = getAppleScript(senderName, messageTemplate, contacts);
     const { stdout, stderr } = await exec(`osascript <<< '${script}'`);
-    const successRes: ExecResult = { stdout, stderr };
+    const successRes: ExecResult = {
+      stdout: stdout ? await text(stdout) : "",
+      stderr: stderr ? await text(stderr) : "",
+    };
     event.reply("send-texts", successRes);
   } catch (e: any) {
     const errorRes: ExecResult = { error: `${e}` };
@@ -60,7 +61,7 @@ const isDebug =
   process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 
 if (isDebug) {
-  require("electron-debug")();
+  require("electron-debug").default();
 }
 
 const installExtensions = async () => {
@@ -71,7 +72,7 @@ const installExtensions = async () => {
   return installer
     .default(
       extensions.map((name) => installer[name]),
-      forceDownload
+      forceDownload,
     )
     .catch(console.log);
 };

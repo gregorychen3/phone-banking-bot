@@ -8,16 +8,16 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ExecResult } from "../../types";
 import {
   selectContacts,
   selectMessageTemplate,
   selectSenderName,
   setActiveStepIdx,
   setExecResult,
-} from "renderer/redux/formSlice";
-import { ExecResult } from "types";
+} from "../redux/formSlice";
 import { contactsStepIdx } from "./ContactsStep";
-import { SendtStepIdx } from "./SentStep";
+import { SentStepIdx } from "./SentStep";
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.success.main,
@@ -47,9 +47,9 @@ export function ConfirmStep() {
   useEffect(() => {
     window.electron.ipcRenderer.once("send-texts", (res) => {
       d(setExecResult(res as ExecResult));
-      d(setActiveStepIdx(SendtStepIdx));
+      d(setActiveStepIdx(SentStepIdx));
     });
-  }, []);
+  }, [d]);
 
   const handleConfirm = () => {
     window.electron.ipcRenderer.sendMessage("send-texts", [
@@ -59,13 +59,13 @@ export function ConfirmStep() {
 
   return (
     <Grid container spacing={4}>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         Your name is <EmphasisInlineText>{senderName}</EmphasisInlineText>.
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         The text to be sent: <EmphasisText>{messageTemplate}</EmphasisText>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         Recipients:
         <TableContainer component={Paper}>
           <Table size="small">
@@ -86,7 +86,7 @@ export function ConfirmStep() {
           </Table>
         </TableContainer>
       </Grid>
-      <Grid container item xs={12} justifyContent="flex-end">
+      <Grid container size={{ xs: 12 }} justifyContent="flex-end">
         <Button onClick={handleBack}>Back</Button>
         <Button variant="contained" onClick={handleConfirm}>
           Send Texts!

@@ -1,16 +1,16 @@
-import { Button, Divider, Grid, LinearProgress, styled } from "@mui/material";
+import { Button, Grid, LinearProgress, styled } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
+import { isErrorExecResult } from "../../types";
 import {
   clearExecResult,
   resetForm,
   selectExecResult,
   setActiveStepIdx,
-} from "renderer/redux/formSlice";
-import { isErrorExecResult } from "types";
+} from "../redux/formSlice";
 import { setupStepIdx } from "./SetupStep";
 
-export const SendtStepIdx = 3;
+export const SentStepIdx = 3;
 
 export function SentStep() {
   const d = useDispatch();
@@ -43,7 +43,7 @@ export function SentStep() {
 
   return (
     <Grid container spacing={4}>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <Typography variant="h5" gutterBottom>
           Texts Sent!
         </Typography>
@@ -51,7 +51,7 @@ export function SentStep() {
           Please follow up with text conversations in the Messages app.
         </Typography>
       </Grid>
-      <Grid container item xs={12} justifyContent="flex-end">
+      <Grid container size={{ xs: 12 }} justifyContent="flex-end">
         <Button variant="contained" onClick={handleStartOver}>
           Start Over
         </Button>

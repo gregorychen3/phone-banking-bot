@@ -1,50 +1,21 @@
 import { Grid, styled, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import { Field, Form, Formik } from "formik";
-import { TextField } from "formik-mui";
+import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { Contact } from "../../types";
 import {
   selectContacts,
   setActiveStepIdx,
   setContacts,
-} from "renderer/redux/formSlice";
-import { Contact } from "types";
-import * as Yup from "yup";
-import { confirmStepIdx } from "./ConfirmStep";
+} from "../redux/formSlice";
+import { ControlledTextField } from "./ControlledTextField";
 import CopyContactsScreenshot from "./copy_contacts_screenshot.png";
 import { setupStepIdx } from "./SetupStep";
+import { confirmStepIdx } from "./ConfirmStep";
 
-const formSchema = Yup.object().shape({
-  rawContacts: Yup.string()
-    .trim()
-    .required("Required")
-    .test(
-      "is-valid-contact-data",
-      "Each row must have: [name, phone_num]",
-      (value) => {
-        // not sure why, by this can be undefined while the form is still being filled out
-        if (!value) {
-          return false;
-        }
-
-        const rows = value.split("\n");
-        for (let i = 0; i < rows.length; i++) {
-          const row = rows[i];
-          const rowSplit = row.split("\t");
-          if (rowSplit.length !== 2) {
-            return false;
-          }
-
-          const [name, number] = rowSplit;
-          if (!name || !number) {
-            return false;
-          }
-        }
-
-        return true;
-      }
-    ),
-});
+interface FormValues {
+  rawContacts: string;
+}
 
 export const contactsStepIdx = 1;
 
@@ -53,25 +24,25 @@ export function ContactsStep() {
 
   const contacts = useSelector(selectContacts);
 
-  const initialValues = {
-    rawContacts: contacts.map((c) => `${c.name}\t${c.number}`).join("\n"),
-  };
-
   const handleBack = () => d(setActiveStepIdx(setupStepIdx));
 
+  const form = useForm<FormValues>({
+    defaultValues: {
+      rawContacts: contacts.map((c) => `${c.name}\t${c.number}`).join("\n"),
+    },
+    mode: "onBlur",
+  });
+
+  const onSubmit = (values: FormValues) => {
+    d(setContacts(parseRawContacts(values.rawContacts.trim())));
+    d(setActiveStepIdx(confirmStepIdx));
+  };
+
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={formSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        d(setContacts(parseRawContacts(values.rawContacts.trim())));
-        setSubmitting(false);
-        d(setActiveStepIdx(confirmStepIdx));
-      }}
-    >
-      <Form>
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Typography variant="h6">Prepare Your Google Sheet</Typography>
             <ul>
               <li>1st column should be the recipients' names.</li>
@@ -90,25 +61,53 @@ export function ContactsStep() {
                 paste).
               </li>
             </ul>
-            <Field
-              component={TextField}
-              name="rawContacts"
-              label="Contacts"
-              type="text"
-              multiline
-              minRows={3}
-              fullWidth
+            <ControlledTextField
+              ctrlProps={{
+                name: "rawContacts",
+                rules: {
+                  required: true,
+                  validate: (v) => {
+                    // not sure why, by this can be undefined while the form is still being filled out
+                    if (!v) {
+                      return "Required";
+                    }
+
+                    const rows = v.split("\n");
+                    for (let i = 0; i < rows.length; i++) {
+                      const row = rows[i];
+                      const rowSplit = row.split("\t");
+                      if (rowSplit.length !== 2) {
+                        return "Each row must have: [name, phone_num]";
+                      }
+
+                      const [name, number] = rowSplit;
+                      if (!name || !number) {
+                        return "Each row must have: [name, phone_num]";
+                      }
+                    }
+
+                    return true;
+                  },
+                },
+              }}
+              textFieldProps={{
+                label: "Contacts",
+                type: "text",
+                multiline: true,
+                minRows: 3,
+                fullWidth: true,
+              }}
             />
           </Grid>
-          <Grid container item xs={12} justifyContent="flex-end">
+          <Grid container size={{ xs: 12 }} justifyContent="flex-end">
             <Button onClick={handleBack}>Back</Button>
             <Button variant="contained" type="submit">
               Next
             </Button>
           </Grid>
         </Grid>
-      </Form>
-    </Formik>
+      </form>
+    </FormProvider>
   );
 }
 

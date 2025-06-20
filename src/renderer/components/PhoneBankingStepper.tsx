@@ -4,7 +4,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import { useSelector } from "react-redux";
-import { selectActiveStepIdx } from "renderer/redux/formSlice";
+import { selectActiveStepIdx } from "../redux/formSlice";
 import { ConfirmStep } from "./ConfirmStep";
 import { ContactsStep } from "./ContactsStep";
 import { SentStep } from "./SentStep";

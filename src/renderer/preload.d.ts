@@ -1,17 +1,9 @@
-import { IpcChannels } from "types";
+import { ElectronHandler } from "../main/preload";
 
 declare global {
+  // eslint-disable-next-line no-unused-vars
   interface Window {
-    electron: {
-      ipcRenderer: {
-        sendMessage(channel: IpcChannels, args: unknown[]): void;
-        on(
-          channel: string,
-          func: (...args: unknown[]) => void
-        ): (() => void) | undefined;
-        once(channel: string, func: (...args: unknown[]) => void): void;
-      };
-    };
+    electron: ElectronHandler;
   }
 }
 

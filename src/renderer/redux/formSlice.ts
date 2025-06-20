@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Contact, ExecResult } from "types";
+import { Contact, ExecResult } from "../../types";
 import { RootState } from "./store";
 
 export interface FormState {
