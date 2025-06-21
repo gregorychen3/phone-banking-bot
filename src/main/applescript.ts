@@ -14,17 +14,32 @@ export const getAppleScript = (
   messageTemplate: string,
   contacts: Contact[],
 ) =>
-  `tell application "Messages"
+  `
+tell application "Messages"
+  set hasSMS to false
+  try
+    set smsService to 1st service whose service type = SMS
+    set hasSMS to true
+  on error
+    set hasSMS to false
+  end try
+
+  if not hasSMS then
+    display alert "SMS Not Set Up" message "Please set up Mac to send SMSs using your iPhone.
+    See https://support.apple.com/guide/messages/get-sms-mms-and-rcs-texts-from-iphone-icht8a28bb9a/mac" as critical
+    return
+  end if
+
   set smsService to 1st service whose service type = SMS
-  ${contacts
-    .map((c) => {
-      const number = removeNonNumericChars(c.number);
-      const msg = renderMessage(messageTemplate, senderName, c.name);
-      return `set recipient to buddy "${number}" of smsService
-              send "${msg}" to recipient`;
-    })
-    .join("\n")}
-  end tell`;
+${contacts
+  .map((c) => {
+    const number = removeNonNumericChars(c.number);
+    const msg = renderMessage(messageTemplate, senderName, c.name);
+    return `  set recipient to buddy "${number}" of smsService
+  send "${msg}" to recipient`;
+  })
+  .join("\n")}
+end tell`;
 
 const renderMessage = (
   messageTemplate: string,
