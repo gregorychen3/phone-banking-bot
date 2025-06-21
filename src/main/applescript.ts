@@ -1,4 +1,4 @@
-import { Contact } from "types";
+import { Contact } from "../types";
 
 /**
  * \, ", and ' have special meaning in Applescript and need to be escaped. See:
@@ -13,8 +13,27 @@ export const getAppleScript = (
   senderName: string,
   messageTemplate: string,
   contacts: Contact[],
+  attachmentFilePath?: string,
 ) =>
   `
+${
+  attachmentFilePath
+    ? `-- copy attachment file ref to clipboard
+set attachment to POSIX file "${attachmentFilePath}" as alias
+
+tell application "Finder"
+  activate
+  set selection to attachment
+end tell
+
+delay 0.2 -- Small delay to ensure selection registers
+
+tell application "System Events"
+  keystroke "c" using {command down}
+end tell`
+    : ""
+}
+
 tell application "Messages"
   -- check SMS service available
   set hasSMS to false
