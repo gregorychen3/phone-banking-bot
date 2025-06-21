@@ -16,6 +16,7 @@ export const getAppleScript = (
 ) =>
   `
 tell application "Messages"
+  -- check SMS service available
   set hasSMS to false
   try
     set smsService to 1st service whose service type = SMS
@@ -30,6 +31,7 @@ tell application "Messages"
     return
   end if
 
+  -- send SMSs
   set smsService to 1st service whose service type = SMS
 ${contacts
   .map((c) => {
