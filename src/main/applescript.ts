@@ -36,7 +36,8 @@ ${contacts
     const number = removeNonNumericChars(c.number);
     const msg = renderMessage(messageTemplate, senderName, c.name);
     return `  set recipient to buddy "${number}" of smsService
-  send "${msg}" to recipient`;
+  send "${msg}" to recipient
+  delay 0.2`;
   })
   .join("\n")}
 end tell`;
