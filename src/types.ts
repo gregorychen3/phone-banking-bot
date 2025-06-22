@@ -3,7 +3,7 @@ export interface Contact {
   number: string;
 }
 
-export type IpcChannels = "ipc-example" | "send-texts";
+export type IpcChannels = "ipc-example" | "send-texts" | "save-file";
 
 export type SendTextsChannelRequest = [
   { senderName: string; messageTemplate: string; contacts: Contact[] },

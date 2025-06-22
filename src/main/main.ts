@@ -12,6 +12,7 @@ import { exec } from "child_process";
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
+import fs from "fs";
 import path from "path";
 import { text } from "stream/consumers";
 import { ExecResult, SendTextsChannelRequest } from "../types";
@@ -33,6 +34,29 @@ ipcMain.on("ipc-example", async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply("ipc-example", msgTemplate("pong"));
+});
+
+ipcMain.on("save-file", async (event, data) => {
+  const filePath = path.join(app.getPath("documents"), "my-data.txt");
+  console.log(filePath);
+
+  if (!filePath) {
+    return;
+  }
+
+  fs.writeFile(filePath, data, (err) => {
+    if (err) {
+      console.error("Failed to save file:", err);
+      event.reply("save-data-response", {
+        success: false,
+        error: err.message,
+      });
+      return;
+    }
+
+    console.log("File saved successfully:", filePath);
+    event.reply("save-data-response", { success: true, filePath });
+  });
 });
 
 ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {

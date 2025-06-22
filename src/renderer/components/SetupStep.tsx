@@ -31,6 +31,7 @@ export function SetupStep() {
   });
 
   const onSubmit = (values: FormValues) => {
+    window.electron.ipcRenderer.sendMessage("save-file", [{}]);
     d(setSenderName(values.senderName.trim()));
     d(setMessageTemplate(values.messageTemplate.trim()));
     d(setActiveStepIdx(contactsStepIdx));
