@@ -39,7 +39,7 @@ ipcMain.on("ipc-example", async (event, arg) => {
 ipcMain.on("save-file", async (event, args: SaveFileRequest) => {
   const { file } = args[0];
 
-  const filePath = path.join(app.getPath("documents"), file.name);
+  const filePath = path.join(app.getPath("temp"), file.name);
   const buffer = Buffer.from(file.data);
 
   try {
