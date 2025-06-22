@@ -1,7 +1,5 @@
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import { ChangeEventHandler, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +14,7 @@ import {
 } from "../redux/formSlice";
 import { contactsStepIdx } from "./ContactsStep";
 import { ControlledTextField } from "./ControlledTextField";
+import { UploadFileButton } from "./UploadFileButton";
 
 interface FormValues {
   senderName: string;
@@ -47,7 +46,7 @@ export function SetupStep() {
     });
   }, [d]);
 
-  const handleAttachment: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleUpload: ChangeEventHandler<HTMLInputElement> = (e) => {
     const file = e.target.files?.[0];
     if (!file) {
       return;
@@ -112,16 +111,7 @@ export function SetupStep() {
             />
           </Grid>
           <Grid size={{ xs: 12 }}>
-            <Button
-              component="label"
-              role={undefined}
-              variant="outlined"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload file
-              <VisuallyHiddenInput type="file" onChange={handleAttachment} />
-            </Button>
+            <UploadFileButton onUpload={handleUpload} />
           </Grid>
           <Grid container size={{ xs: 12 }} justifyContent="flex-end">
             <Button variant="contained" type="submit">
@@ -135,15 +125,3 @@ export function SetupStep() {
 }
 
 const templatePlaceholder = `Hi RECIPIENT_NAME, this is John from the community center. Hope to see you at our next event!`;
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
