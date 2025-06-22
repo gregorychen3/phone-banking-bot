@@ -1,5 +1,7 @@
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
 import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -64,6 +66,22 @@ export function SetupStep() {
               }}
             />
           </Grid>
+          <Grid size={{ xs: 12 }}>
+            <Button
+              component="label"
+              role={undefined}
+              variant="outlined"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload file
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(event) => console.log(event.target.files)}
+                multiple
+              />
+            </Button>
+          </Grid>
           <Grid container size={{ xs: 12 }} justifyContent="flex-end">
             <Button variant="contained" type="submit">
               Next
@@ -76,3 +94,15 @@ export function SetupStep() {
 }
 
 const templatePlaceholder = `Hi RECIPIENT_NAME, this is John from the community center. Hope to see you at our next event!`;
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
