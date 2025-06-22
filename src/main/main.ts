@@ -15,7 +15,12 @@ import { autoUpdater } from "electron-updater";
 import { promises as fs } from "fs";
 import path from "path";
 import { text } from "stream/consumers";
-import { ExecResult, SaveFileRequest, SendTextsChannelRequest } from "../types";
+import {
+  ExecResult,
+  SaveFileRequest,
+  SaveFileResponse,
+  SendTextsChannelRequest,
+} from "../types";
 import { getAppleScript } from "./applescript";
 import MenuBuilder from "./menu";
 import { resolveHtmlPath } from "./util";
@@ -46,15 +51,14 @@ ipcMain.on("save-file", async (event, args: SaveFileRequest) => {
     await fs.writeFile(filePath, buffer);
   } catch (err) {
     console.error("Failed to save file:", err);
-    event.reply("save-file-response", {
-      success: false,
-      error: `${err}`,
-    });
+    const resp: SaveFileResponse = { error: `${err}` };
+    event.reply("save-file-response", resp);
     return;
   }
 
   console.log("File saved successfully:", filePath);
-  event.reply("save-file-response", { success: true, filePath });
+  const resp: SaveFileResponse = { filePath };
+  event.reply("save-file-response", { success: true, resp });
 });
 
 ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
