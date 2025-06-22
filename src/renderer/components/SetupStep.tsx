@@ -2,8 +2,10 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { File } from "../../types";
 import {
   selectMessageTemplate,
   selectSenderName,
@@ -27,13 +29,20 @@ export function SetupStep() {
   const senderName = useSelector(selectSenderName);
   const messageTemplate = useSelector(selectMessageTemplate);
 
+  const [attachment, setAttachment] = useState<File | undefined>();
+
   const form = useForm<FormValues>({
     defaultValues: { senderName, messageTemplate },
     mode: "onBlur",
   });
 
   const onSubmit = (values: FormValues) => {
-    window.electron.ipcRenderer.sendMessage("save-file", [{}]);
+    if (attachment) {
+      window.electron.ipcRenderer.sendMessage("save-file", [
+        { file: attachment },
+      ]);
+    }
+
     d(setSenderName(values.senderName.trim()));
     d(setMessageTemplate(values.messageTemplate.trim()));
     d(setActiveStepIdx(contactsStepIdx));
@@ -77,7 +86,32 @@ export function SetupStep() {
               Upload file
               <VisuallyHiddenInput
                 type="file"
-                onChange={(event) => console.log(event.target.files)}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) {
+                    return;
+                  }
+
+                  const reader = new FileReader();
+
+                  reader.onload = (event) => {
+                    const data = event.target?.result;
+                    if (!data) {
+                      return;
+                    }
+
+                    setAttachment({
+                      name: file.name,
+                      data: data as ArrayBuffer,
+                    });
+                  };
+
+                  reader.onerror = (err) => {
+                    console.error("Error reading file:", err);
+                  };
+
+                  reader.readAsArrayBuffer(file); // or readAsDataURL / readAsArrayBuffer / readAsBinaryString
+                }}
               />
             </Button>
           </Grid>
