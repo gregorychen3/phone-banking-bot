@@ -58,6 +58,7 @@ export const formSlice = createSlice({
 export const {
   setSenderName,
   setMessageTemplate,
+  setAttachmentFilePath,
   setContacts,
   resetForm,
   setActiveStepIdx,
