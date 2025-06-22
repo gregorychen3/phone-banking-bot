@@ -5,6 +5,10 @@ export interface Contact {
 
 export type IpcChannels = "ipc-example" | "send-texts" | "save-file";
 
+export type File = { name: string; data: ArrayBuffer };
+
+export type SaveFileRequest = [{ file: File }];
+
 export type SendTextsChannelRequest = [
   { senderName: string; messageTemplate: string; contacts: Contact[] },
 ];
