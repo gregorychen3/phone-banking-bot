@@ -18,7 +18,7 @@ export type SuccessExecResult = { stderr: string; stdout: string };
 export type ExecResult = ErrorExecResult | SuccessExecResult;
 
 export function isErrorExecResult(x: ExecResult): x is ErrorExecResult {
-  return x.hasOwnProperty("error") ? true : false;
+  return x.hasOwnProperty("error");
 }
 
 export function isSuccessExecResult(x: ExecResult): x is ErrorExecResult {
