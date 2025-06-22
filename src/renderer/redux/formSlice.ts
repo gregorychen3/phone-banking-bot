@@ -5,6 +5,7 @@ import { RootState } from "./store";
 export interface FormState {
   senderName: string;
   messageTemplate: string;
+  attachmentFilePath: string;
   contacts: Contact[];
   activeStepIdx: number;
   execResult?: ExecResult;
@@ -13,6 +14,7 @@ export interface FormState {
 const initialState: FormState = {
   senderName: "",
   messageTemplate: "",
+  attachmentFilePath: "",
   contacts: [],
   activeStepIdx: 0,
   execResult: undefined,
@@ -28,12 +30,16 @@ export const formSlice = createSlice({
     setMessageTemplate: (state, { payload }: PayloadAction<string>) => {
       state.messageTemplate = payload;
     },
+    setAttachmentFilePath: (state, { payload }: PayloadAction<string>) => {
+      state.attachmentFilePath = payload;
+    },
     setContacts: (state, { payload }: PayloadAction<Contact[]>) => {
       state.contacts = payload;
     },
     resetForm: (state) => {
       state.senderName = "";
       state.messageTemplate = "";
+      state.attachmentFilePath = "";
       state.contacts = [];
       state.activeStepIdx = 0;
     },
@@ -62,6 +68,8 @@ export const {
 export const selectSenderName = (state: RootState) => state.form.senderName;
 export const selectMessageTemplate = (state: RootState) =>
   state.form.messageTemplate;
+export const selectAttachmentFilePath = (state: RootState) =>
+  state.form.attachmentFilePath;
 export const selectContacts = (state: RootState) => state.form.contacts;
 export const selectActiveStepIdx = (state: RootState) =>
   state.form.activeStepIdx;
