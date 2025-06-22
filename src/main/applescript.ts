@@ -19,17 +19,17 @@ export const getAppleScript = (
 ${
   attachmentFilePath
     ? `-- copy attachment file ref to clipboard
-set attachment to POSIX file "${attachmentFilePath}" as alias
-
 tell application "Finder"
   activate
-  set selection to attachment
+  set selection to (POSIX file "${attachmentFilePath}") as alias
 end tell
 
-delay 1 -- Small delay to ensure selection registers
-
+-- Wait until Finder is active
 tell application "System Events"
-  keystroke "c" using {command down}
+	repeat until (name of first process whose frontmost is true) is "Finder"
+		delay 0.1
+	end repeat
+	keystroke "c" using {command down}
 end tell`
     : ""
 }
