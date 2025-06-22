@@ -71,6 +71,7 @@ ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
       attachmentFilePath,
       contacts,
     );
+    console.log(script);
     const { stdout, stderr } = await exec(`osascript <<< '${script}'`);
     const successRes: ExecResult = {
       stdout: stdout ? await text(stdout) : "",

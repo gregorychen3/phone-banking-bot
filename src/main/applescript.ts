@@ -26,7 +26,7 @@ tell application "Finder"
   set selection to attachment
 end tell
 
-delay 0.2 -- Small delay to ensure selection registers
+delay 1 -- Small delay to ensure selection registers
 
 tell application "System Events"
   keystroke "c" using {command down}
@@ -35,6 +35,7 @@ end tell`
 }
 
 tell application "Messages"
+  activate
   -- check SMS service available
   set hasSMS to false
   try
@@ -58,7 +59,12 @@ ${contacts
     const msg = renderMessage(messageTemplate, senderName, c.name);
     return `  set recipient to buddy "${number}" of smsService
   send "${msg}" to recipient
-  delay 0.2`;
+  tell application "System Events"
+    keystroke "v" using command down
+    delay 0.5
+    key code 36
+  end tell
+  delay 0.5`;
   })
   .join("\n")}
 end tell`;
