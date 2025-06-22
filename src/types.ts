@@ -11,7 +11,12 @@ export type SaveFileRequest = [{ file: File }];
 export type SaveFileResponse = { filePath: string } | ErrorResponse;
 
 export type SendTextsChannelRequest = [
-  { senderName: string; messageTemplate: string; contacts: Contact[] },
+  {
+    senderName: string;
+    messageTemplate: string;
+    attachmentFilePath: string;
+    contacts: Contact[];
+  },
 ];
 
 export type ErrorExecResult = { error?: string };

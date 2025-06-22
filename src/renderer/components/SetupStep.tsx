@@ -32,7 +32,6 @@ export function SetupStep() {
   // register response callback
   useEffect(() => {
     window.electron.ipcRenderer.once("save-file", (res) => {
-      console.log("RESP");
       const resp = res as SaveFileResponse;
       if (isErrorResponse(resp)) {
         // TODO
@@ -41,7 +40,6 @@ export function SetupStep() {
         return;
       }
 
-      console.log(resp);
       d(setAttachmentFilePath(resp.filePath));
     });
   }, [d]);

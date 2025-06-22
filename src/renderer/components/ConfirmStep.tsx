@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ExecResult } from "../../types";
 import {
+  selectAttachmentFilePath,
   selectContacts,
   selectMessageTemplate,
   selectSenderName,
@@ -39,6 +40,7 @@ export function ConfirmStep() {
 
   const senderName = useSelector(selectSenderName);
   const messageTemplate = useSelector(selectMessageTemplate);
+  const attachmentFilePath = useSelector(selectAttachmentFilePath);
   const contacts = useSelector(selectContacts);
 
   const handleBack = () => d(setActiveStepIdx(contactsStepIdx));
@@ -53,7 +55,7 @@ export function ConfirmStep() {
 
   const handleConfirm = () => {
     window.electron.ipcRenderer.sendMessage("send-texts", [
-      { senderName, messageTemplate, contacts },
+      { senderName, messageTemplate, attachmentFilePath, contacts },
     ]);
   };
 

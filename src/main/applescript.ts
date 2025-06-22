@@ -12,8 +12,8 @@ const removeNonNumericChars = (s: string) => s.replace(/\D/g, "");
 export const getAppleScript = (
   senderName: string,
   messageTemplate: string,
+  attachmentFilePath: string,
   contacts: Contact[],
-  attachmentFilePath?: string,
 ) =>
   `
 ${

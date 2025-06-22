@@ -58,14 +58,19 @@ ipcMain.on("save-file", async (event, args: SaveFileRequest) => {
 
   console.log("File saved successfully:", filePath);
   const resp: SaveFileResponse = { filePath };
-  event.reply("save-file", { resp });
+  event.reply("save-file", resp);
 });
 
 ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
-  const { senderName, messageTemplate, contacts } = args[0];
+  const { senderName, messageTemplate, attachmentFilePath, contacts } = args[0];
 
   try {
-    const script = getAppleScript(senderName, messageTemplate, contacts);
+    const script = getAppleScript(
+      senderName,
+      messageTemplate,
+      attachmentFilePath,
+      contacts,
+    );
     const { stdout, stderr } = await exec(`osascript <<< '${script}'`);
     const successRes: ExecResult = {
       stdout: stdout ? await text(stdout) : "",
