@@ -58,7 +58,7 @@ ipcMain.on("save-file", async (event, args: SaveFileRequest) => {
 
   console.log("File saved successfully:", filePath);
   const resp: SaveFileResponse = { filePath };
-  event.reply("save-file-response", { success: true, resp });
+  event.reply("save-file", { resp });
 });
 
 ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
