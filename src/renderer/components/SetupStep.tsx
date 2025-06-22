@@ -78,7 +78,6 @@ export function SetupStep() {
               <VisuallyHiddenInput
                 type="file"
                 onChange={(event) => console.log(event.target.files)}
-                multiple
               />
             </Button>
           </Grid>
