@@ -236,12 +236,12 @@
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": ">=14.x",
+      "version": "=22",
       "onFail": "error"
     },
     "packageManager": {
       "name": "npm",
-      "version": ">=7.x",
+      "version": "=10",
       "onFail": "error"
     }
   },
