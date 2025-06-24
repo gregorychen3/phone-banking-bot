@@ -12,7 +12,6 @@ import { ExecResult } from "../../types";
 import {
   selectContacts,
   selectMessageTemplate,
-  selectSenderName,
   setActiveStepIdx,
   setExecResult,
 } from "../redux/formSlice";
@@ -28,16 +27,11 @@ const EmphasisText = styled("div")(({ theme }) => ({
   whiteSpace: "pre-line",
 }));
 
-const EmphasisInlineText = styled("span")(({ theme }) => ({
-  color: theme.palette.success.main,
-}));
-
 export const confirmStepIdx = 2;
 
 export function ConfirmStep() {
   const d = useDispatch();
 
-  const senderName = useSelector(selectSenderName);
   const messageTemplate = useSelector(selectMessageTemplate);
   const contacts = useSelector(selectContacts);
 
@@ -53,15 +47,12 @@ export function ConfirmStep() {
 
   const handleConfirm = () => {
     window.electron.ipcRenderer.sendMessage("send-texts", [
-      { senderName, messageTemplate, contacts },
+      { messageTemplate, contacts },
     ]);
   };
 
   return (
     <Grid container spacing={4}>
-      <Grid size={{ xs: 12 }}>
-        Your name is <EmphasisInlineText>{senderName}</EmphasisInlineText>.
-      </Grid>
       <Grid size={{ xs: 12 }}>
         The text to be sent: <EmphasisText>{messageTemplate}</EmphasisText>
       </Grid>

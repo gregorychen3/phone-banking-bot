@@ -1,4 +1,4 @@
-import { Contact } from "types";
+import { Contact } from "../types";
 
 /**
  * \, ", and ' have special meaning in Applescript and need to be escaped. See:
@@ -9,11 +9,7 @@ const escapeStr = (s: string) =>
 
 const removeNonNumericChars = (s: string) => s.replace(/\D/g, "");
 
-export const getAppleScript = (
-  senderName: string,
-  messageTemplate: string,
-  contacts: Contact[],
-) =>
+export const getAppleScript = (messageTemplate: string, contacts: Contact[]) =>
   `
 tell application "Messages"
   set hasSMS to false
@@ -34,7 +30,7 @@ tell application "Messages"
 ${contacts
   .map((c) => {
     const number = removeNonNumericChars(c.number);
-    const msg = renderMessage(messageTemplate, senderName, c.name);
+    const msg = renderMessage(messageTemplate, c.name);
     return `  set recipient to buddy "${number}" of smsService
   send "${msg}" to recipient
   delay 0.2`;
@@ -42,8 +38,5 @@ ${contacts
   .join("\n")}
 end tell`;
 
-const renderMessage = (
-  messageTemplate: string,
-  senderName: string,
-  recipientName: string,
-) => escapeStr(messageTemplate.replaceAll("RECIPIENT_NAME", recipientName));
+const renderMessage = (messageTemplate: string, recipientName: string) =>
+  escapeStr(messageTemplate.replaceAll("RECIPIENT_NAME", recipientName));

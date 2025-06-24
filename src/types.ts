@@ -6,7 +6,7 @@ export interface Contact {
 export type IpcChannels = "ipc-example" | "send-texts";
 
 export type SendTextsChannelRequest = [
-  { senderName: string; messageTemplate: string; contacts: Contact[] },
+  { messageTemplate: string; contacts: Contact[] },
 ];
 
 export type ErrorExecResult = { error?: string };
