@@ -36,10 +36,10 @@ ipcMain.on("ipc-example", async (event, arg) => {
 });
 
 ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
-  const { senderName, messageTemplate, contacts } = args[0];
+  const { messageTemplate, contacts } = args[0];
 
   try {
-    const script = getAppleScript(senderName, messageTemplate, contacts);
+    const script = getAppleScript(messageTemplate, contacts);
     const { stdout, stderr } = await exec(`osascript <<< '${script}'`);
     const successRes: ExecResult = {
       stdout: stdout ? await text(stdout) : "",

@@ -3,7 +3,6 @@ import { Contact, ExecResult } from "../../types";
 import { RootState } from "./store";
 
 export interface FormState {
-  senderName: string;
   messageTemplate: string;
   contacts: Contact[];
   activeStepIdx: number;
@@ -11,7 +10,6 @@ export interface FormState {
 }
 
 const initialState: FormState = {
-  senderName: "",
   messageTemplate: "",
   contacts: [],
   activeStepIdx: 0,
@@ -22,9 +20,6 @@ export const formSlice = createSlice({
   name: "form",
   initialState,
   reducers: {
-    setSenderName: (state, { payload }: PayloadAction<string>) => {
-      state.senderName = payload;
-    },
     setMessageTemplate: (state, { payload }: PayloadAction<string>) => {
       state.messageTemplate = payload;
     },
@@ -32,7 +27,6 @@ export const formSlice = createSlice({
       state.contacts = payload;
     },
     resetForm: (state) => {
-      state.senderName = "";
       state.messageTemplate = "";
       state.contacts = [];
       state.activeStepIdx = 0;
@@ -50,7 +44,6 @@ export const formSlice = createSlice({
 });
 
 export const {
-  setSenderName,
   setMessageTemplate,
   setContacts,
   resetForm,
@@ -59,7 +52,6 @@ export const {
   clearExecResult,
 } = formSlice.actions;
 
-export const selectSenderName = (state: RootState) => state.form.senderName;
 export const selectMessageTemplate = (state: RootState) =>
   state.form.messageTemplate;
 export const selectContacts = (state: RootState) => state.form.contacts;

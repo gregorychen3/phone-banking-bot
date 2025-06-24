@@ -4,16 +4,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectMessageTemplate,
-  selectSenderName,
   setActiveStepIdx,
   setMessageTemplate,
-  setSenderName,
 } from "../redux/formSlice";
 import { contactsStepIdx } from "./ContactsStep";
 import { ControlledTextField } from "./ControlledTextField";
 
 interface FormValues {
-  senderName: string;
   messageTemplate: string;
 }
 
@@ -22,16 +19,14 @@ export const setupStepIdx = 0;
 export function SetupStep() {
   const d = useDispatch();
 
-  const senderName = useSelector(selectSenderName);
   const messageTemplate = useSelector(selectMessageTemplate);
 
   const form = useForm<FormValues>({
-    defaultValues: { senderName, messageTemplate },
+    defaultValues: { messageTemplate },
     mode: "onBlur",
   });
 
   const onSubmit = (values: FormValues) => {
-    d(setSenderName(values.senderName.trim()));
     d(setMessageTemplate(values.messageTemplate.trim()));
     d(setActiveStepIdx(contactsStepIdx));
   };
