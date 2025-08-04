@@ -10,7 +10,7 @@ import {
 } from "../redux/formSlice";
 import { setupStepIdx } from "./SetupStep";
 
-export const SentStepIdx = 3;
+export const SentStepIdx = 4;
 
 export function SentStep() {
   const d = useDispatch();
