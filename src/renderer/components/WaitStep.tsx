@@ -15,7 +15,7 @@ export function WaitStep() {
       <div>
         Your texts are being sent with a{" "}
         <Box fontWeight="bold" component="span">
-          5 second delay
+          5-second delay
         </Box>{" "}
         between each to avoid triggering your carrier's rate limits.
       </div>
@@ -33,7 +33,7 @@ export function WaitStep() {
       </div>
 
       <Alert severity="warning">
-        Don't close this window! We'll let you know when we're done.
+        Don't close this window! We’ll notify you when all texts are sent.
       </Alert>
     </Stack>
   );
