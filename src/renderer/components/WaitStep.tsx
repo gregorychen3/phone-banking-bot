@@ -33,7 +33,10 @@ export function WaitStep() {
       </div>
 
       <Alert severity="warning">
-        Don't close this window! We’ll notify you when all texts are sent.
+        <Box fontWeight="bold" component="span">
+          Heads up:{" "}
+        </Box>
+        keep this window open until sending completes!
       </Alert>
     </Stack>
   );
