@@ -10,9 +10,9 @@ import {
 } from "../redux/formSlice";
 import { setupStepIdx } from "./SetupStep";
 
-export const SentStepIdx = 4;
+export const DoneStepIdx = 4;
 
-export function SentStep() {
+export function DoneStep() {
   const d = useDispatch();
   const execResult = useSelector(selectExecResult);
 

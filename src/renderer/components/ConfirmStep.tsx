@@ -16,7 +16,7 @@ import {
   setExecResult,
 } from "../redux/formSlice";
 import { contactsStepIdx } from "./ContactsStep";
-import { SentStepIdx } from "./SentStep";
+import { DoneStepIdx } from "./DoneStep";
 import { WaitStepIdx } from "./WaitStep";
 
 const EmphasisTableCell = styled(TableCell)(({ theme }) => ({
@@ -42,7 +42,7 @@ export function ConfirmStep() {
   useEffect(() => {
     window.electron.ipcRenderer.once("send-texts", (res) => {
       d(setExecResult(res as ExecResult));
-      d(setActiveStepIdx(SentStepIdx));
+      d(setActiveStepIdx(DoneStepIdx));
     });
   }, [d]);
 
