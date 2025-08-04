@@ -97,7 +97,6 @@
     "electron-updater": "^6.3.9",
     "install": "^0.13.0",
     "lodash": "^4.17.21",
-    "npm": "^11.5.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.58.1",
