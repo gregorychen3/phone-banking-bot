@@ -68,7 +68,7 @@ export function ConfirmStep() {
             </TableHead>
             <TableBody>
               {contacts.map((c) => (
-                <TableRow key={c.name}>
+                <TableRow key={`${c.name}-${c.number}`}>
                   <EmphasisTableCell>{c.name}</EmphasisTableCell>
                   <EmphasisTableCell>{c.number}</EmphasisTableCell>
                 </TableRow>

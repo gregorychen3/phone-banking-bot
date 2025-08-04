@@ -33,7 +33,7 @@ ${contacts
     const msg = renderMessage(messageTemplate, c.name);
     return `  set recipient to buddy "${number}" of smsService
   send "${msg}" to recipient
-  delay 0.2`;
+  delay 5`;
   })
   .join("\n")}
 end tell`;

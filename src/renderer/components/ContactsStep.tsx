@@ -1,5 +1,6 @@
 import { Grid, styled, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+import _ from "lodash";
 import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Contact } from "../../types";
@@ -8,10 +9,10 @@ import {
   setActiveStepIdx,
   setContacts,
 } from "../redux/formSlice";
+import { confirmStepIdx } from "./ConfirmStep";
 import { ControlledTextField } from "./ControlledTextField";
 import CopyContactsScreenshot from "./copy_contacts_screenshot.png";
 import { setupStepIdx } from "./SetupStep";
-import { confirmStepIdx } from "./ConfirmStep";
 
 interface FormValues {
   rawContacts: string;
@@ -34,7 +35,10 @@ export function ContactsStep() {
   });
 
   const onSubmit = (values: FormValues) => {
-    d(setContacts(parseRawContacts(values.rawContacts.trim())));
+    const c = parseRawContacts(values.rawContacts.trim());
+    const deduped = _.uniqWith(c, _.isEqual);
+
+    d(setContacts(deduped));
     d(setActiveStepIdx(confirmStepIdx));
   };
 
