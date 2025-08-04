@@ -1,5 +1,4 @@
-import { Button, Grid } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { Alert, Box, Grid, LinearProgress } from "@mui/material";
 import { formatDuration } from "date-fns";
 import { useSelector } from "react-redux";
 import { selectContacts } from "../redux/formSlice";
@@ -12,21 +11,33 @@ export function WaitStep() {
   return (
     <Grid container spacing={4}>
       <Grid size={{ xs: 12 }}>
-        <Typography variant="h5" gutterBottom>
-          Your texts are currently being sent. To avoid triggering your cell
-          carrier's rate-limiting, the texts are being send with a 5 second
-          delay between each. Since you have {numContacts} texts to send, this
-          will take {formatDuration({ seconds: numContacts * 5 })}. Take a
-          coffee break!
-        </Typography>
-        <Typography variant="subtitle1">
-          Please follow up with text conversations in the Messages app.
-        </Typography>
+        <LinearProgress />
       </Grid>
-      <Grid container size={{ xs: 12 }} justifyContent="flex-end">
-        <Button variant="contained" onClick={() => {}}>
-          TODO
-        </Button>
+
+      <Grid size={{ xs: 12 }}>
+        Your texts are being sent with a{" "}
+        <Box fontWeight="bold" component="span">
+          5 second delay
+        </Box>{" "}
+        between each to avoid triggering your carrier's rate limits.
+      </Grid>
+
+      <Grid size={{ xs: 12 }}>
+        Since you have{" "}
+        <Box color="success.main" component="span">
+          {numContacts}
+        </Box>{" "}
+        text{numContacts === 1 ? "" : "s"} to send, this will take{" "}
+        <Box color="success.main" component="span">
+          {formatDuration({ seconds: numContacts * 5 })}
+        </Box>
+        . Take a coffee break! ☕️
+      </Grid>
+
+      <Grid size={{ xs: 12 }}>
+        <Alert severity="warning">
+          Don't close this window! We'll let you know when we're done.
+        </Alert>
       </Grid>
     </Grid>
   );
