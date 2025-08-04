@@ -12,6 +12,11 @@ const removeNonNumericChars = (s: string) => s.replace(/\D/g, "");
 export const getAppleScript = (messageTemplate: string, contacts: Contact[]) =>
   `
 tell application "Messages"
+  activate
+  if (count windows) > 0 then
+    set minimized of windows to false
+  end if
+
   set hasSMS to false
   try
     set smsService to 1st service whose service type = SMS

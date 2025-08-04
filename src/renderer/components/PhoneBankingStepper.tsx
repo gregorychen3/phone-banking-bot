@@ -7,10 +7,11 @@ import { useSelector } from "react-redux";
 import { selectActiveStepIdx } from "../redux/formSlice";
 import { ConfirmStep } from "./ConfirmStep";
 import { ContactsStep } from "./ContactsStep";
-import { SentStep } from "./SentStep";
+import { WaitStep } from "./WaitStep";
+import { DoneStep } from "./DoneStep";
 import { SetupStep } from "./SetupStep";
 
-const steps = ["Setup", "Contacts", "Confirm", "Sent"];
+const steps = ["Setup", "Contacts", "Confirm", "Wait", "Done"];
 
 function getStepContent(step: number) {
   switch (step) {
@@ -21,7 +22,9 @@ function getStepContent(step: number) {
     case 2:
       return <ConfirmStep />;
     case 3:
-      return <SentStep />;
+      return <WaitStep />;
+    case 4:
+      return <DoneStep />;
     default:
       throw new Error(`Unknown step ${step}`);
   }
