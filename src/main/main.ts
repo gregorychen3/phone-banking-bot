@@ -36,6 +36,8 @@ ipcMain.on("ipc-example", async (event, arg) => {
 });
 
 ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
+  console.log(`Handling send-texts with args: ${args}`);
+
   const { messageTemplate, contacts } = args[0];
 
   try {
@@ -48,8 +50,11 @@ ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
     event.reply("send-texts", successRes);
   } catch (e: any) {
     const errorRes: ExecResult = { error: `${e}` };
+    console.error(`Failed executing osascript: ${e}`);
     event.reply("send-texts", errorRes);
   }
+
+  console.log("Finished handling send-texts");
 });
 
 if (process.env.NODE_ENV === "production") {
