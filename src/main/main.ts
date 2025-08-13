@@ -36,7 +36,7 @@ ipcMain.on("ipc-example", async (event, arg) => {
 });
 
 ipcMain.on("send-texts", async (event, args: SendTextsChannelRequest) => {
-  console.log(`Handling send-texts with args: ${args}`);
+  console.log(`Handling send-texts with args: ${JSON.stringify(args)}`);
 
   const { messageTemplate, contacts } = args[0];
 
